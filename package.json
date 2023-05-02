@@ -22,8 +22,8 @@
     "node": "18"
   },
   "dependencies": {
-    "copy-webpack-plugin": "^11.0.0",
-    "webpack-dev-server": "^4.13.3"
+    "copy-webpack-plugin": "11.0.0",
+    "webpack-dev-server": "4.13.3"
   },
   "browserslist": [
     "last 2 versions",
