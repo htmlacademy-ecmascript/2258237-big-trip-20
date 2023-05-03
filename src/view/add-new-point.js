@@ -168,7 +168,7 @@ function createNewCreatePointTemplate () {
 }
 
 
-export class NewCreatePointView {
+export class CreatePointView {
   getTemplate () {
     return createNewCreatePointTemplate();
   }

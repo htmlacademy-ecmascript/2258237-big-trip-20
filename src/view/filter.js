@@ -29,7 +29,7 @@ function createNewFiltersTemplate () {
 }
 
 
-export class NewFiltersView {
+export class FiltersView {
   getTemplate () {
     return createNewFiltersTemplate();
   }

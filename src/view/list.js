@@ -8,7 +8,7 @@ function createNewListTemplate () {
 }
 
 
-export class NewListView {
+export class ListView {
   getTemplate () {
     return createNewListTemplate();
   }

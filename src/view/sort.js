@@ -32,7 +32,7 @@ function createNewSortingTemplate () {
 }
 
 
-export class NewSortingView {
+export class SortingView {
   getTemplate() {
     return createNewSortingTemplate ();
   }

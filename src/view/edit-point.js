@@ -161,7 +161,7 @@ function createEditPointTemplate () {
 }
 
 
-export class NewEditPointView {
+export class EditPointView {
   getTemplate () {
     return createEditPointTemplate();
   }
