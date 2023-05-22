@@ -9,17 +9,20 @@ import { render } from '../render.js';
 export class ListPresenter {
   tripList = new ListView();
 
-  constructor ({listContainer}) {
+  constructor ({listContainer, pointsModel}) {
     this.listContainer = listContainer;
+    this.pointsModel = pointsModel;
   }
 
   init () {
+    this.listPoints = [...this.pointsModel.getPoints()];
+
     render(this.tripList, this.listContainer);
     render(new CreatePointView(), this.tripList.getElement());
     render(new EditPointView(), this.tripList.getElement());
 
-    for (let i = 0; i < 3; i++) {
-      render(new TripPointView(), this.tripList.getElement());
+    for (let i = 0; i < this.listPoints.length; i++) {
+      render(new TripPointView({point: this.listPoints[i]}), this.tripList.getElement());
     }
   }
 }
