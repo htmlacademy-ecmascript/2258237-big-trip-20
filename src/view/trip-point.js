@@ -1,6 +1,8 @@
 import { createElement } from '../render.js';
 
-function createTripPointTemplate () {
+function createTripPointTemplate (point) {
+  const {type, dateFrom, dateTo, basePrice} = point;
+
   return (
     `<li class="trip-events__item">
     <div class="event">
@@ -18,7 +20,7 @@ function createTripPointTemplate () {
         <p class="event__duration">01H 35M</p>
       </div>
       <p class="event__price">
-        &euro;&nbsp;<span class="event__price-value">160</span>
+        &euro;&nbsp;<span class="event__price-value">${basePrice}</span>
       </p>
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
@@ -44,8 +46,12 @@ function createTripPointTemplate () {
 
 
 export class TripPointView {
+  constructor({point}) {
+    this.point = point;
+  }
+
   getTemplate () {
-    return createTripPointTemplate();
+    return createTripPointTemplate(this.point);
   }
 
   getElement () {
