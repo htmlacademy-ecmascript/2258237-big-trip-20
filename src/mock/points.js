@@ -2,13 +2,21 @@ import {getRandomArrayElement} from '../utils.js';
 
 const mockPoints = [
   {
-    id: 1,
-    type: 'Taxi',
-    destination: 'Moscow',
+    basePrice: 1100,
     dateFrom: '2019-07-10T22:15',
     dateTo: '2019-07-10T23:35',
+    destination: 'Moscow',
+    isFavorite: true,
+    offers: [1, 2],
+    type: 'taxi'
+  }, {
     basePrice: 1100,
-    offers: [1, 2]
+    dateFrom: '2019-08-11T9:15',
+    dateTo: '2019-08-16T13:35',
+    destination: 'Anapa',
+    isFavorite: false,
+    offers: [1, 2],
+    type: 'drive'
   }
 ];
 
