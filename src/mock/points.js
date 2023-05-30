@@ -7,15 +7,15 @@ const mockPoints = [
     dateTo: '2019-07-10T23:35',
     destination: 'Moscow',
     isFavorite: true,
-    offers: [1, 2],
+    selectedOffers: [1, 2],
     type: 'taxi'
   }, {
-    basePrice: 1100,
+    basePrice: 800,
     dateFrom: '2019-08-11T9:15',
     dateTo: '2019-08-16T13:35',
     destination: 'Anapa',
     isFavorite: false,
-    offers: [1, 2],
+    selectedOffers: [2],
     type: 'drive'
   }
 ];

@@ -7,4 +7,12 @@ function humanizePointDueTime (dueDate, dateFormat) {
   return dueDate ? dayjs(dueDate).format(DATE_FORMAT) : '';
 }
 
-export {getRandomArrayElement, humanizePointDueTime};
+const getOffersByType = (fullListOffers, currentType) => {
+  for (let i = 0; i < fullListOffers.length; i++) {
+    if (fullListOffers[i].type === currentType) {
+      return fullListOffers[i].offers;
+    }
+  }
+};
+
+export {getRandomArrayElement, humanizePointDueTime, getOffersByType};

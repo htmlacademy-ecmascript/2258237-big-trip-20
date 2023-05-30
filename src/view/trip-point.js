@@ -1,13 +1,14 @@
 // import dayjs from 'dayjs';
 import { createElement } from '../render.js';
-import { humanizePointDueTime} from '../utils.js';
+import { humanizePointDueTime, getOffersByType } from '../utils.js';
+import { allOffers } from '../mock/offers.js';
 
 // let duration = require('dayjs/plugin/duration.js');
 // dayjs.extend(duration);
 
 
 function createTripPointTemplate (point) {
-  const {dateFrom, dateTo, basePrice, destination, isFavorite, type, offers} = point;
+  const {dateFrom, dateTo, basePrice, destination, isFavorite, type, selectedOffers} = point;
 
   const dateFromDay = humanizePointDueTime(dateFrom, 'days');
   const dateFromMinutes = humanizePointDueTime(dateFrom, 'minutes');
@@ -15,6 +16,31 @@ function createTripPointTemplate (point) {
 
   const isFavoriteClassName = (isFavorite) ? 'event__favorite-btn--active' : '';
 
+  function drawListOfferElement (test) {
+    return `<li class="event__offer">
+    <span class="event__offer-title">${test.title}</span>
+    &plus;&euro;&nbsp;
+    <span class="event__offer-price">${test.price}</span>
+    </li>`;
+  }
+
+  function createOffersList (allOffersByType, checkedOffers) {
+    for (let i = 0; i < allOffersByType.length; i++) {
+      for (let j = 0; j < checkedOffers.length; j++) {
+        if (allOffersByType[i].id === checkedOffers[j]) {
+          console.log(allOffersByType[i].title);
+          console.log(allOffersByType[i].price);
+          return `<li class="event__offer">
+                  <span class="event__offer-title">${allOffersByType[i].title}</span>
+                  &plus;&euro;&nbsp;
+                  <span class="event__offer-price">${allOffersByType[i].price}</span>
+                  </li>`;
+        }
+      }
+    }
+  }
+
+  const currentTypeOffers = getOffersByType(allOffers, type);
 
   return (
     `<li class="trip-events__item">
@@ -37,6 +63,7 @@ function createTripPointTemplate (point) {
       </p>
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
+        ${createOffersList(currentTypeOffers, selectedOffers)}
         <li class="event__offer">
           <span class="event__offer-title">Rent a car</span>
           &plus;&euro;&nbsp;

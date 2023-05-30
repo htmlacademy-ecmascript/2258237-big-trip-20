@@ -1,4 +1,4 @@
-const offers = [
+const allOffers = [
   {
     type: 'taxi',
     offers: [
@@ -23,7 +23,27 @@ const offers = [
         price: 560,
       }
     ]
+  },
+  {
+    type: 'drive',
+    offers: [
+      {
+        id: 1,
+        title: 'Дозаправка',
+        price: 230,
+      },
+      {
+        id: 2,
+        title: 'Дорогой бензин',
+        price: 120,
+      },
+      {
+        id: 3,
+        title: 'Зимняя резина',
+        price: 120,
+      }
+    ]
   }
 ];
 
-export {offers};
+export {allOffers};
