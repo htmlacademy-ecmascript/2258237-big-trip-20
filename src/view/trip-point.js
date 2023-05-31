@@ -25,12 +25,11 @@ function createTripPointTemplate (point) {
   }
 
   function createOffersList (allOffersByType, checkedOffers) {
+    let test = '';
     for (let i = 0; i < allOffersByType.length; i++) {
       for (let j = 0; j < checkedOffers.length; j++) {
         if (allOffersByType[i].id === checkedOffers[j]) {
-          console.log(allOffersByType[i].title);
-          console.log(allOffersByType[i].price);
-          return `<li class="event__offer">
+          test += `<li class="event__offer">
                   <span class="event__offer-title">${allOffersByType[i].title}</span>
                   &plus;&euro;&nbsp;
                   <span class="event__offer-price">${allOffersByType[i].price}</span>
@@ -38,6 +37,7 @@ function createTripPointTemplate (point) {
         }
       }
     }
+    return test;
   }
 
   const currentTypeOffers = getOffersByType(allOffers, type);
@@ -64,11 +64,6 @@ function createTripPointTemplate (point) {
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
         ${createOffersList(currentTypeOffers, selectedOffers)}
-        <li class="event__offer">
-          <span class="event__offer-title">Rent a car</span>
-          &plus;&euro;&nbsp;
-          <span class="event__offer-price">200</span>
-        </li>
       </ul>
       <button class="event__favorite-btn  ${isFavoriteClassName}" type="button">
         <span class="visually-hidden">Add to favorite</span>
