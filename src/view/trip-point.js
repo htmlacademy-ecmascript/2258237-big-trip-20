@@ -1,10 +1,6 @@
-// import dayjs from 'dayjs';
 import { createElement } from '../render.js';
 import { humanizePointDueTime, getOffersByType } from '../utils.js';
 import { allOffers } from '../mock/offers.js';
-
-// let duration = require('dayjs/plugin/duration.js');
-// dayjs.extend(duration);
 
 
 function createTripPointTemplate (point) {
@@ -16,20 +12,12 @@ function createTripPointTemplate (point) {
 
   const isFavoriteClassName = (isFavorite) ? 'event__favorite-btn--active' : '';
 
-  function drawListOfferElement (test) {
-    return `<li class="event__offer">
-    <span class="event__offer-title">${test.title}</span>
-    &plus;&euro;&nbsp;
-    <span class="event__offer-price">${test.price}</span>
-    </li>`;
-  }
-
   function createOffersList (allOffersByType, checkedOffers) {
-    let test = '';
+    let listPoints = '';
     for (let i = 0; i < allOffersByType.length; i++) {
       for (let j = 0; j < checkedOffers.length; j++) {
         if (allOffersByType[i].id === checkedOffers[j]) {
-          test += `<li class="event__offer">
+          listPoints += `<li class="event__offer">
                   <span class="event__offer-title">${allOffersByType[i].title}</span>
                   &plus;&euro;&nbsp;
                   <span class="event__offer-price">${allOffersByType[i].price}</span>
@@ -37,7 +25,7 @@ function createTripPointTemplate (point) {
         }
       }
     }
-    return test;
+    return listPoints;
   }
 
   const currentTypeOffers = getOffersByType(allOffers, type);

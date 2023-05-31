@@ -31,7 +31,7 @@ const mockPoints = [
     dateTo: '2019-05-16T12:35',
     destination: 'Adler',
     isFavorite: true,
-    selectedOffers: [1],
+    selectedOffers: [],
     type: 'flight'
   }
 ];
