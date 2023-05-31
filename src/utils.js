@@ -17,10 +17,24 @@ const humanizePointDueTime = (dueDate, dateFormat) => {
   return dueDate ? dayjs(dueDate).format(DATE_FORMAT) : '';
 };
 
-// const getPointDuration = (dateFrom. dateTo) => {
-//   const timeDiff = dayjs(dateTo).diff(dayjs(dateFrom));
-//   let pointDuration = 0;
-// }
+const getPointDuration = (dateFrom, dateTo) => {
+  const timeDiff = dayjs(dateTo).diff(dayjs(dateFrom));
+  let pointDuration = 0;
+
+  switch (true) {
+    case (timeDiff >= MSEC_IN_DAY):
+      pointDuration = dayjs.duration(timeDiff).format('DD[D] HH[H] mm[M]');
+      break;
+    case (timeDiff >= MSEC_IN_HOUR):
+      pointDuration = dayjs.duration(timeDiff).format('HH[H] mm[M]');
+      break;
+    case (timeDiff < MSEC_IN_HOUR):
+      pointDuration = dayjs.duration(timeDiff).format('mm[M]');
+      break;
+  }
+
+  return pointDuration;
+};
 
 const getOffersByType = (fullListOffers, currentType) => {
   for (let i = 0; i < fullListOffers.length; i++) {
@@ -30,4 +44,4 @@ const getOffersByType = (fullListOffers, currentType) => {
   }
 };
 
-export {getRandomArrayElement, humanizePointDueTime, getOffersByType};
+export {getRandomArrayElement, humanizePointDueTime, getOffersByType, getPointDuration};

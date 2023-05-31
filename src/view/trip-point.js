@@ -1,5 +1,5 @@
 import { createElement } from '../render.js';
-import { humanizePointDueTime, getOffersByType } from '../utils.js';
+import { humanizePointDueTime, getOffersByType, getPointDuration } from '../utils.js';
 import { allOffers } from '../mock/offers.js';
 
 
@@ -44,7 +44,7 @@ function createTripPointTemplate (point) {
           &mdash;
           <time class="event__end-time" datetime="${dateTo}">${dateToMinutes}</time>
         </p>
-        <p class="event__duration">01H 35M????</p>
+        <p class="event__duration">${getPointDuration(dateFrom, dateTo)}</p>
       </div>
       <p class="event__price">
         &euro;&nbsp;<span class="event__price-value">${basePrice}</span>
