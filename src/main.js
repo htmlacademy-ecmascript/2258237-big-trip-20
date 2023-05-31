@@ -12,8 +12,7 @@ const siteMainEvents = siteMainElement.querySelector('.trip-events');
 // const listPresenter = new ListPresenter({listContainer: siteMainEvents});
 const pointsModel = new PointsModel();
 const listPresenter = new ListPresenter({
-  listContainer: siteMainEvents,
-  pointsModel,
+  listContainer: siteMainEvents, pointsModel
 });
 
 render(new FiltersView(), siteHeaderTripControls);

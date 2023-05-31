@@ -1,6 +1,8 @@
 import { createElement } from '../render.js';
 
-function createNewCreatePointTemplate () {
+function createNewCreatePointTemplate (offers, destinations) {
+  const tripCity = destinations.map((item) => item.city);
+
   return (
     `<li class="trip-events__item">
     <form class="event event--edit" action="#" method="post">
@@ -100,21 +102,13 @@ function createNewCreatePointTemplate () {
           <h3 class="event__section-title  event__section-title--offers">Offers</h3>
 
           <div class="event__available-offers">
+
             <div class="event__offer-selector">
               <input class="event__offer-checkbox  visually-hidden" id="event-offer-luggage-1" type="checkbox" name="event-offer-luggage" checked>
               <label class="event__offer-label" for="event-offer-luggage-1">
                 <span class="event__offer-title">Add luggage</span>
                 &plus;&euro;&nbsp;
                 <span class="event__offer-price">30</span>
-              </label>
-            </div>
-
-            <div class="event__offer-selector">
-              <input class="event__offer-checkbox  visually-hidden" id="event-offer-comfort-1" type="checkbox" name="event-offer-comfort" checked>
-              <label class="event__offer-label" for="event-offer-comfort-1">
-                <span class="event__offer-title">Switch to comfort class</span>
-                &plus;&euro;&nbsp;
-                <span class="event__offer-price">100</span>
               </label>
             </div>
 
@@ -127,23 +121,6 @@ function createNewCreatePointTemplate () {
               </label>
             </div>
 
-            <div class="event__offer-selector">
-              <input class="event__offer-checkbox  visually-hidden" id="event-offer-seats-1" type="checkbox" name="event-offer-seats">
-              <label class="event__offer-label" for="event-offer-seats-1">
-                <span class="event__offer-title">Choose seats</span>
-                &plus;&euro;&nbsp;
-                <span class="event__offer-price">5</span>
-              </label>
-            </div>
-
-            <div class="event__offer-selector">
-              <input class="event__offer-checkbox  visually-hidden" id="event-offer-train-1" type="checkbox" name="event-offer-train">
-              <label class="event__offer-label" for="event-offer-train-1">
-                <span class="event__offer-title">Travel by train</span>
-                &plus;&euro;&nbsp;
-                <span class="event__offer-price">40</span>
-              </label>
-            </div>
           </div>
         </section>
 
@@ -169,8 +146,13 @@ function createNewCreatePointTemplate () {
 
 
 export class CreatePointView {
+  constructor ({offers, destinations}) {
+    this.offers = offers;
+    this.destinations = destinations;
+  }
+
   getTemplate () {
-    return createNewCreatePointTemplate();
+    return createNewCreatePointTemplate(this.offers, this.destinations);
   }
 
   getElement () {

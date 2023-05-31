@@ -16,10 +16,14 @@ export class ListPresenter {
 
   init () {
     this.listPoints = [...this.pointsModel.getPoints()];
+    this.offers = [...this.pointsModel.getOffers()];
+    this.destinations = [...this.pointsModel.getDestinations()];
 
     render(this.tripList, this.listContainer);
-    render(new CreatePointView(), this.tripList.getElement());
-    render(new EditPointView(), this.tripList.getElement());
+
+    render(new CreatePointView({offers: this.offers, destinations: this.destinations}), this.tripList.getElement());
+
+    render(new EditPointView({offers: this.offers, destinations: this.destinations}), this.tripList.getElement());
 
     for (let i = 0; i < this.listPoints.length; i++) {
       render(new TripPointView({point: this.listPoints[i]}), this.tripList.getElement());

@@ -46,4 +46,8 @@ const allOffers = [
   }
 ];
 
-export {allOffers};
+function getMockOffers() {
+  return allOffers;
+}
+
+export {allOffers, getMockOffers};
