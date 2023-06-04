@@ -6,9 +6,9 @@ import { allOffers } from '../mock/offers.js';
 function createTripPointTemplate (point) {
   const {dateFrom, dateTo, basePrice, destination, isFavorite, type, selectedOffers} = point;
 
-  const dateFromDay = humanizePointDueTime(dateFrom, 'days');
-  const dateFromMinutes = humanizePointDueTime(dateFrom, 'minutes');
-  const dateToMinutes = humanizePointDueTime(dateTo, 'minutes');
+  const dateFromDay = humanizePointDueTime(dateFrom, 'MMMM DD');
+  const dateFromMinutes = humanizePointDueTime(dateFrom, 'HH:mm');
+  const dateToMinutes = humanizePointDueTime(dateTo, 'HH:mm');
 
   const isFavoriteClassName = (isFavorite) ? 'event__favorite-btn--active' : '';
 

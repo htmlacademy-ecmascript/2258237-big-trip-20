@@ -21,7 +21,7 @@ const mockPoints = [
     basePrice: 5355,
     dateFrom: '2019-03-15T12:15',
     dateTo: '2019-03-16T02:35',
-    destination: 'Jeneva',
+    destination: 'Moscow',
     isFavorite: false,
     selectedOffers: [1],
     type: 'flight'

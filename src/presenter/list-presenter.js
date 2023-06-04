@@ -21,11 +21,11 @@ export class ListPresenter {
 
     render(this.tripList, this.listContainer);
 
-    render(new CreatePointView({offers: this.offers, destinations: this.destinations}), this.tripList.getElement());
+    // render(new CreatePointView({offers: this.offers, destinations: this.destinations}), this.tripList.getElement());
 
-    render(new EditPointView({offers: this.offers, destinations: this.destinations}), this.tripList.getElement());
+    render(new EditPointView({point: this.listPoints[0], offers: this.offers, destinations: this.destinations}), this.tripList.getElement());
 
-    for (let i = 0; i < this.listPoints.length; i++) {
+    for (let i = 1; i < this.listPoints.length; i++) {
       render(new TripPointView({point: this.listPoints[i]}), this.tripList.getElement());
     }
   }

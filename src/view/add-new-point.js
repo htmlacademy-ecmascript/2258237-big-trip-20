@@ -1,7 +1,6 @@
 import { createElement } from '../render.js';
 
-function createNewCreatePointTemplate (offers, destinations) {
-  const tripCity = destinations.map((item) => item.city);
+function createNewCreatePointTemplate () {
 
   return (
     `<li class="trip-events__item">

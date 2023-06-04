@@ -12,10 +12,7 @@ const MSEC_IN_DAY = MSEC_IN_HOUR * HOUR_IN_DAY;
 
 const getRandomArrayElement = (array) => array[Math.floor(Math.random() * array.length)];
 
-const humanizePointDueTime = (dueDate, dateFormat) => {
-  const DATE_FORMAT = (dateFormat === 'minutes') ? 'HH:mm' : 'MMMM DD';
-  return dueDate ? dayjs(dueDate).format(DATE_FORMAT) : '';
-};
+const humanizePointDueTime = (dueDate, dateFormat) => dueDate ? dayjs(dueDate).format(dateFormat) : '';
 
 const getPointDuration = (dateFrom, dateTo) => {
   const timeDiff = dayjs(dateTo).diff(dayjs(dateFrom));
@@ -44,4 +41,6 @@ const getOffersByType = (fullListOffers, currentType) => {
   }
 };
 
-export {getRandomArrayElement, humanizePointDueTime, getOffersByType, getPointDuration};
+const upFirstLetter = (text) => text[0].toUpperCase() + text.slice(1);
+
+export {getRandomArrayElement, humanizePointDueTime, getOffersByType, getPointDuration, upFirstLetter};
