@@ -12,20 +12,33 @@ function createTripPointTemplate (point) {
 
   const isFavoriteClassName = (isFavorite) ? 'event__favorite-btn--active' : '';
 
+  // function createOffersList (allOffersByType, checkedOffers) {
+  //   let listPoints = '';
+  //   for (let i = 0; i < allOffersByType.length; i++) {
+  //     for (let j = 0; j < checkedOffers.length; j++) {
+  //       if (allOffersByType[i].id === checkedOffers[j]) {
+  //         listPoints += `<li class="event__offer">
+  //                 <span class="event__offer-title">${allOffersByType[i].title}</span>
+  //                 &plus;&euro;&nbsp;
+  //                 <span class="event__offer-price">${allOffersByType[i].price}</span>
+  //                 </li>`;
+  //       }
+  //     }
+  //   }
+  //   return listPoints;
+  // }
+
   function createOffersList (allOffersByType, checkedOffers) {
-    let listPoints = '';
-    for (let i = 0; i < allOffersByType.length; i++) {
-      for (let j = 0; j < checkedOffers.length; j++) {
-        if (allOffersByType[i].id === checkedOffers[j]) {
-          listPoints += `<li class="event__offer">
-                  <span class="event__offer-title">${allOffersByType[i].title}</span>
-                  &plus;&euro;&nbsp;
-                  <span class="event__offer-price">${allOffersByType[i].price}</span>
-                  </li>`;
-        }
-      }
-    }
-    return listPoints;
+    return checkedOffers.map((currentOfferId) => {
+      const currentOffer = allOffersByType.find((offer) => offer.id === currentOfferId);
+      return (`
+        <li class="event__offer">
+        <span class="event__offer-title">${currentOffer.title}</span>
+        &plus;&euro;&nbsp;
+        <span class="event__offer-price">${currentOffer.price}</span>
+        </li>
+      `)
+    }).join('');
   }
 
   const currentTypeOffers = getOffersByType(allOffers, type);

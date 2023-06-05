@@ -29,16 +29,44 @@ const mockPoints = [
     basePrice: 1300,
     dateFrom: '2019-05-15T10:15',
     dateTo: '2019-05-16T12:35',
-    destination: 'Adler',
+    destination: 'Saint Petersburg',
     isFavorite: true,
     selectedOffers: [],
     type: 'flight'
+  }, {
+    basePrice: 25,
+    dateFrom: '2019-05-15T10:15',
+    dateTo: '2019-05-15T10:47',
+    destination: 'Adler',
+    isFavorite: false,
+    selectedOffers: [1, 2, 3],
+    type: 'bus'
+  }, {
+    basePrice: 190,
+    dateFrom: '2019-05-13T10:55',
+    dateTo: '2019-05-15T10:17',
+    destination: 'Anapa',
+    isFavorite: true,
+    selectedOffers: [2, 3],
+    type: 'ship'
+  }, {
+    basePrice: 90,
+    dateFrom: '2019-06-13T11:34',
+    dateTo: '2019-06-13T13:41',
+    destination: 'Moscow',
+    isFavorite: true,
+    selectedOffers: [2],
+    type: 'train'
   }
 ];
 
 
+// function getRandomPoint() {
+//   return getRandomArrayElement(mockPoints);
+// }
+
 function getRandomPoint() {
-  return getRandomArrayElement(mockPoints);
+  return mockPoints;
 }
 
 export {getRandomPoint};
