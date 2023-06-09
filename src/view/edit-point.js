@@ -68,8 +68,8 @@ function createPhotosTemplate (currentCityPhotos) {
 }
 
 
-function createEditPointTemplate (point, offers, destinations) {
-  const {basePrice, dateFrom, dateTo, destination, type, selectedOffers} = point;
+function createEditPointTemplate (point, fullOffersList, destinations) {
+  const {basePrice, dateFrom, dateTo, destination, type, offers} = point;
 
   return (
     `<li class="trip-events__item">
@@ -122,7 +122,7 @@ function createEditPointTemplate (point, offers, destinations) {
           <span class="visually-hidden">Open event</span>
         </button>
       </header>
-      ${createEventDetailsTemplate(offers, type, selectedOffers, destinations, destination)}
+      ${createEventDetailsTemplate(fullOffersList, type, offers, destinations, destination)}
     </form>
   </li>`
   );

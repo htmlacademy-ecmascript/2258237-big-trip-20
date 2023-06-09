@@ -1,4 +1,4 @@
-import { CreatePointView } from '../view/add-new-point.js';
+// import { CreatePointView } from '../view/add-new-point.js';
 import { EditPointView } from '../view/edit-point.js';
 import { TripPointView } from '../view/trip-point.js';
 import { ListView } from '../view/list.js';
@@ -20,8 +20,6 @@ export class ListPresenter {
     this.destinations = [...this.pointsModel.getDestinations()];
 
     render(this.tripList, this.listContainer);
-
-    // render(new CreatePointView({offers: this.offers, destinations: this.destinations}), this.tripList.getElement());
 
     render(new EditPointView({point: this.listPoints[0], offers: this.offers, destinations: this.destinations}), this.tripList.getElement());
 

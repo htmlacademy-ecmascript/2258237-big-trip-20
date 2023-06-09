@@ -1,4 +1,4 @@
-import {getRandomArrayElement} from '../utils.js';
+// import {getRandomArrayElement} from '../utils.js';
 
 const mockPoints = [
   {
@@ -7,7 +7,7 @@ const mockPoints = [
     dateTo: '2019-07-10T23:35',
     destination: 'Moscow',
     isFavorite: true,
-    selectedOffers: [1, 2],
+    offers: [1, 2],
     type: 'taxi'
   }, {
     basePrice: 800,
@@ -15,7 +15,7 @@ const mockPoints = [
     dateTo: '2019-08-16T13:35',
     destination: 'Anapa',
     isFavorite: false,
-    selectedOffers: [3],
+    offers: [3],
     type: 'drive'
   }, {
     basePrice: 5355,
@@ -23,7 +23,7 @@ const mockPoints = [
     dateTo: '2019-03-16T02:35',
     destination: 'Moscow',
     isFavorite: false,
-    selectedOffers: [1],
+    offers: [1],
     type: 'flight'
   }, {
     basePrice: 1300,
@@ -31,7 +31,7 @@ const mockPoints = [
     dateTo: '2019-05-16T12:35',
     destination: 'Saint Petersburg',
     isFavorite: true,
-    selectedOffers: [],
+    offers: [],
     type: 'flight'
   }, {
     basePrice: 25,
@@ -39,7 +39,7 @@ const mockPoints = [
     dateTo: '2019-05-15T10:47',
     destination: 'Adler',
     isFavorite: false,
-    selectedOffers: [1, 2, 3],
+    offers: [1, 2, 3],
     type: 'bus'
   }, {
     basePrice: 190,
@@ -47,7 +47,7 @@ const mockPoints = [
     dateTo: '2019-05-15T10:17',
     destination: 'Anapa',
     isFavorite: true,
-    selectedOffers: [2, 3],
+    offers: [2, 3],
     type: 'ship'
   }, {
     basePrice: 90,
@@ -55,7 +55,7 @@ const mockPoints = [
     dateTo: '2019-06-13T13:41',
     destination: 'Moscow',
     isFavorite: true,
-    selectedOffers: [2],
+    offers: [2],
     type: 'train'
   }
 ];
@@ -65,8 +65,8 @@ const mockPoints = [
 //   return getRandomArrayElement(mockPoints);
 // }
 
-function getRandomPoint() {
+function getMockPoints() {
   return mockPoints;
 }
 
-export {getRandomPoint};
+export {getMockPoints};

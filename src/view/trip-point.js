@@ -4,29 +4,13 @@ import { allOffers } from '../mock/offers.js';
 
 
 function createTripPointTemplate (point) {
-  const {dateFrom, dateTo, basePrice, destination, isFavorite, type, selectedOffers} = point;
+  const {dateFrom, dateTo, basePrice, destination, isFavorite, type, offers} = point;
 
   const dateFromDay = humanizePointDueTime(dateFrom, 'MMMM DD');
   const dateFromMinutes = humanizePointDueTime(dateFrom, 'HH:mm');
   const dateToMinutes = humanizePointDueTime(dateTo, 'HH:mm');
 
   const isFavoriteClassName = (isFavorite) ? 'event__favorite-btn--active' : '';
-
-  // function createOffersList (allOffersByType, checkedOffers) {
-  //   let listPoints = '';
-  //   for (let i = 0; i < allOffersByType.length; i++) {
-  //     for (let j = 0; j < checkedOffers.length; j++) {
-  //       if (allOffersByType[i].id === checkedOffers[j]) {
-  //         listPoints += `<li class="event__offer">
-  //                 <span class="event__offer-title">${allOffersByType[i].title}</span>
-  //                 &plus;&euro;&nbsp;
-  //                 <span class="event__offer-price">${allOffersByType[i].price}</span>
-  //                 </li>`;
-  //       }
-  //     }
-  //   }
-  //   return listPoints;
-  // }
 
   function createOffersList (allOffersByType, checkedOffers) {
     return checkedOffers.map((currentOfferId) => {
@@ -37,7 +21,7 @@ function createTripPointTemplate (point) {
         &plus;&euro;&nbsp;
         <span class="event__offer-price">${currentOffer.price}</span>
         </li>
-      `)
+      `);
     }).join('');
   }
 
@@ -64,7 +48,7 @@ function createTripPointTemplate (point) {
       </p>
       <h4 class="visually-hidden">Offers:</h4>
       <ul class="event__selected-offers">
-        ${createOffersList(currentTypeOffers, selectedOffers)}
+        ${createOffersList(currentTypeOffers, offers)}
       </ul>
       <button class="event__favorite-btn  ${isFavoriteClassName}" type="button">
         <span class="visually-hidden">Add to favorite</span>
