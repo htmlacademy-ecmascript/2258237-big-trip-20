@@ -14,7 +14,7 @@ function createEventTypesTemplate (types) {
 }
 
 function createDestinationListTemplate (destinationss) {
-  return (`${destinationss.map((item) => `<option value="${item.city}"></option>`).join('')}`);
+  return (`${destinationss.map((item) => `<option value="${item.name}"></option>`).join('')}`);
 }
 
 function createEventDetailsTemplate (allOffers, type, checkedOffers, destinations, destination) {
@@ -30,12 +30,12 @@ function createEventDetailsTemplate (allOffers, type, checkedOffers, destination
       <section class="event__section  event__section--destination">
         <h3 class="event__section-title  event__section-title--destination">Destination</h3>
         <p class="event__destination-description">
-        ${destinations.find((object) => object.city === destination).destinations.description}
+        ${destinations.find((object) => object.id === destination).description}
         </p>
 
         <div class="event__photos-container">
           <div class="event__photos-tape">
-            ${createPhotosTemplate(destinations.find((object) => object.city === destination).destinations.photos)}
+            ${createPhotosTemplate(destinations.find((object) => object.id === destination).pictures)}
           </div>
         </div>
       </section>
@@ -94,7 +94,7 @@ function createEditPointTemplate (point, fullOffersList, destinations) {
           <label class="event__label  event__type-output" for="event-destination-1">
             ${type}
           </label>
-          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destination}" list="destination-list-1">
+          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destinations.find((city) => city.id === destination).name}" list="destination-list-1">
           <datalist id="destination-list-1">
             ${createDestinationListTemplate(destinations)}
           </datalist>

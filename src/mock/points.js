@@ -5,7 +5,7 @@ const mockPoints = [
     basePrice: 1100,
     dateFrom: '2019-07-10T22:15',
     dateTo: '2019-07-10T23:35',
-    destination: 'Moscow',
+    destination: '1',
     isFavorite: true,
     offers: [1, 2],
     type: 'taxi'
@@ -13,7 +13,7 @@ const mockPoints = [
     basePrice: 800,
     dateFrom: '2019-08-11T9:15',
     dateTo: '2019-08-16T13:35',
-    destination: 'Anapa',
+    destination: '2',
     isFavorite: false,
     offers: [3],
     type: 'drive'
@@ -21,7 +21,7 @@ const mockPoints = [
     basePrice: 5355,
     dateFrom: '2019-03-15T12:15',
     dateTo: '2019-03-16T02:35',
-    destination: 'Moscow',
+    destination: '1',
     isFavorite: false,
     offers: [1],
     type: 'flight'
@@ -29,7 +29,7 @@ const mockPoints = [
     basePrice: 1300,
     dateFrom: '2019-05-15T10:15',
     dateTo: '2019-05-16T12:35',
-    destination: 'Saint Petersburg',
+    destination: '3',
     isFavorite: true,
     offers: [],
     type: 'flight'
@@ -37,7 +37,7 @@ const mockPoints = [
     basePrice: 25,
     dateFrom: '2019-05-15T10:15',
     dateTo: '2019-05-15T10:47',
-    destination: 'Adler',
+    destination: '4',
     isFavorite: false,
     offers: [1, 2, 3],
     type: 'bus'
@@ -45,7 +45,7 @@ const mockPoints = [
     basePrice: 190,
     dateFrom: '2019-05-13T10:55',
     dateTo: '2019-05-15T10:17',
-    destination: 'Anapa',
+    destination: '1',
     isFavorite: true,
     offers: [2, 3],
     type: 'ship'
@@ -53,7 +53,7 @@ const mockPoints = [
     basePrice: 90,
     dateFrom: '2019-06-13T11:34',
     dateTo: '2019-06-13T13:41',
-    destination: 'Moscow',
+    destination: '2',
     isFavorite: true,
     offers: [2],
     type: 'train'

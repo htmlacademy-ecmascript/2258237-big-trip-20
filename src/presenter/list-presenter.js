@@ -24,7 +24,7 @@ export class ListPresenter {
     render(new EditPointView({point: this.listPoints[0], offers: this.offers, destinations: this.destinations}), this.tripList.getElement());
 
     for (let i = 1; i < this.listPoints.length; i++) {
-      render(new TripPointView({point: this.listPoints[i]}), this.tripList.getElement());
+      render(new TripPointView({point: this.listPoints[i], destinations: this.destinations}), this.tripList.getElement());
     }
   }
 }

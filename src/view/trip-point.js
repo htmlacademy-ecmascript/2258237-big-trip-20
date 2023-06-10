@@ -3,7 +3,7 @@ import { humanizePointDueTime, getOffersByType, getPointDuration } from '../util
 import { allOffers } from '../mock/offers.js';
 
 
-function createTripPointTemplate (point) {
+function createTripPointTemplate (point, destinations) {
   const {dateFrom, dateTo, basePrice, destination, isFavorite, type, offers} = point;
 
   const dateFromDay = humanizePointDueTime(dateFrom, 'MMMM DD');
@@ -34,7 +34,7 @@ function createTripPointTemplate (point) {
       <div class="event__type">
         <img class="event__type-icon" width="42" height="42" src="img/icons/${type}.png" alt="Event type icon">
       </div>
-      <h3 class="event__title">${type} ${destination}</h3>
+      <h3 class="event__title">${type} ${destinations.find((city) => city.id === destination).name}</h3>
       <div class="event__schedule">
         <p class="event__time">
           <time class="event__start-time" datetime="${dateFrom}">${dateFromMinutes}</time>
@@ -66,12 +66,13 @@ function createTripPointTemplate (point) {
 
 
 export class TripPointView {
-  constructor({point}) {
+  constructor({point, destinations}) {
     this.point = point;
+    this.destinations = destinations;
   }
 
   getTemplate () {
-    return createTripPointTemplate(this.point);
+    return createTripPointTemplate(this.point, this.destinations);
   }
 
   getElement () {
