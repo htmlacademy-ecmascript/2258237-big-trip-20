@@ -1,4 +1,4 @@
-import { CreatePointView } from '../view/add-new-point.js';
+// import { CreatePointView } from '../view/add-new-point.js';
 import { EditPointView } from '../view/edit-point.js';
 import { TripPointView } from '../view/trip-point.js';
 import { ListView } from '../view/list.js';
@@ -9,17 +9,22 @@ import { render } from '../render.js';
 export class ListPresenter {
   tripList = new ListView();
 
-  constructor ({listContainer}) {
+  constructor ({listContainer, pointsModel}) {
     this.listContainer = listContainer;
+    this.pointsModel = pointsModel;
   }
 
   init () {
-    render(this.tripList, this.listContainer);
-    render(new CreatePointView(), this.tripList.getElement());
-    render(new EditPointView(), this.tripList.getElement());
+    this.listPoints = [...this.pointsModel.getPoints()];
+    this.offers = [...this.pointsModel.getOffers()];
+    this.destinations = [...this.pointsModel.getDestinations()];
 
-    for (let i = 0; i < 3; i++) {
-      render(new TripPointView(), this.tripList.getElement());
+    render(this.tripList, this.listContainer);
+
+    render(new EditPointView({point: this.listPoints[0], offers: this.offers, destinations: this.destinations}), this.tripList.getElement());
+
+    for (let i = 1; i < this.listPoints.length; i++) {
+      render(new TripPointView({point: this.listPoints[i], destinations: this.destinations}), this.tripList.getElement());
     }
   }
 }
