@@ -24,12 +24,9 @@ export class ListPresenter {
     this.#offers = [...this.#pointsModel.offers];
     this.#destinations = [...this.#pointsModel.destinations];
 
-    render(this.#tripList, this.#listContainer);
-
-    for (let i = 1; i < this.#listPoints.length; i++) {
-      this.#renderPoint(this.#listPoints[i]);
-    }
+    this.#renderPointsList();
   }
+
 
   #renderPoint(point) {
     const escKeyDownHandler = (evt) => {
@@ -68,5 +65,14 @@ export class ListPresenter {
     }
 
     render(pointComponent, this.#tripList.element);
+  }
+
+
+  #renderPointsList() {
+    render(this.#tripList, this.#listContainer);
+
+    for (let i = 1; i < this.#listPoints.length; i++) {
+      this.#renderPoint(this.#listPoints[i]);
+    }
   }
 }
