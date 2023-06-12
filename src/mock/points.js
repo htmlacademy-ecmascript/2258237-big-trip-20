@@ -1,5 +1,3 @@
-// import {getRandomArrayElement} from '../utils.js';
-
 const mockPoints = [
   {
     basePrice: 1100,
@@ -59,11 +57,6 @@ const mockPoints = [
     type: 'train'
   }
 ];
-
-
-// function getRandomPoint() {
-//   return getRandomArrayElement(mockPoints);
-// }
 
 function getMockPoints() {
   return mockPoints;

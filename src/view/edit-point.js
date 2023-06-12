@@ -1,6 +1,6 @@
-import { createElement } from '../render.js';
 import { TYPES } from '../const.js';
 import { humanizePointDueTime, upFirstLetter } from '../utils.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
 
 function createEventTypesTemplate (types) {
@@ -129,26 +129,28 @@ function createEditPointTemplate (point, fullOffersList, destinations) {
 }
 
 
-export class EditPointView {
-  constructor ({point, offers, destinations}) {
-    this.point = point;
-    this.offers = offers;
-    this.destinations = destinations;
+export class EditPointView extends AbstractView {
+  #point = null;
+  #offers = null;
+  #destinations = null;
+  #handleSubmitForm = null;
+
+  constructor ({point, offers, destinations, onSubmitForm}) {
+    super();
+    this.#point = point;
+    this.#offers = offers;
+    this.#destinations = destinations;
+    this.#handleSubmitForm = onSubmitForm;
+
+    this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#submitFormHandler);
   }
 
-  getTemplate () {
-    return createEditPointTemplate(this.point, this.offers, this.destinations);
+  get template() {
+    return createEditPointTemplate(this.#point, this.#offers, this.#destinations);
   }
 
-  getElement () {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement () {
-    this.element = null;
-  }
+  #submitFormHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleSubmitForm();
+  };
 }

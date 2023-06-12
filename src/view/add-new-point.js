@@ -1,4 +1,4 @@
-import { createElement } from '../render.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
 function createNewCreatePointTemplate () {
 
@@ -144,25 +144,14 @@ function createNewCreatePointTemplate () {
 }
 
 
-export class CreatePointView {
+export class CreatePointView extends AbstractView {
   constructor ({offers, destinations}) {
+    super();
     this.offers = offers;
     this.destinations = destinations;
   }
 
-  getTemplate () {
+  get template() {
     return createNewCreatePointTemplate(this.offers, this.destinations);
-  }
-
-  getElement () {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement () {
-    this.element = null;
   }
 }
