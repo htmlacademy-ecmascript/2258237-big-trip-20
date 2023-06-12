@@ -1,6 +1,6 @@
-import { createElement } from '../render.js';
 import { TYPES } from '../const.js';
 import { humanizePointDueTime, upFirstLetter } from '../utils.js';
+import AbstractView from '../framework/view/abstract-view.js';
 
 
 function createEventTypesTemplate (types) {
@@ -129,26 +129,15 @@ function createEditPointTemplate (point, fullOffersList, destinations) {
 }
 
 
-export class EditPointView {
+export class EditPointView extends AbstractView {
   constructor ({point, offers, destinations}) {
+    super();
     this.point = point;
     this.offers = offers;
     this.destinations = destinations;
   }
 
-  getTemplate () {
+  get template() {
     return createEditPointTemplate(this.point, this.offers, this.destinations);
-  }
-
-  getElement () {
-    if (!this.element) {
-      this.element = createElement(this.getTemplate());
-    }
-
-    return this.element;
-  }
-
-  removeElement () {
-    this.element = null;
   }
 }
