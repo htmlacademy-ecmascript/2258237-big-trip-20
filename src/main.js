@@ -4,6 +4,8 @@ import { render } from './framework/render.js';
 import { ListPresenter } from './presenter/list-presenter.js';
 import { PointsModel } from './model/points-model.js';
 
+import { generateFilter } from './mock/filter.js';
+
 const siteHeaderElement = document.querySelector('.page-header');
 const siteMainElement = document.querySelector('.page-main');
 const siteHeaderTripControls = siteHeaderElement.querySelector('.trip-controls__filters');
@@ -14,6 +16,8 @@ const listPresenter = new ListPresenter({
   listContainer: siteMainEvents, pointsModel
 });
 
-render(new FiltersView(), siteHeaderTripControls);
+const filters = generateFilter(pointsModel.points);
+
+render(new FiltersView({filters}), siteHeaderTripControls);
 render(new SortingView(), siteMainEvents);
 listPresenter.init();

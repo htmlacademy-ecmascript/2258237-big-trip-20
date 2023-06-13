@@ -75,7 +75,7 @@ export class ListPresenter {
   #renderPointsList() {
     render(this.#tripList, this.#listContainer);
 
-    for (let i = 1; i < this.#listPoints.length; i++) {
+    for (let i = 0; i < this.#listPoints.length; i++) {
       this.#renderPoint(this.#listPoints[i]);
     }
   }

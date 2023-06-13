@@ -1,16 +1,16 @@
 const mockPoints = [
   {
     basePrice: 1100,
-    dateFrom: '2019-07-10T22:15',
-    dateTo: '2019-07-10T23:35',
+    dateFrom: '2023-06-13T22:15',
+    dateTo: '2023-06-14T23:35',
     destination: '1',
     isFavorite: true,
     offers: [1, 2],
     type: 'taxi'
   }, {
     basePrice: 800,
-    dateFrom: '2019-08-11T9:15',
-    dateTo: '2019-08-16T13:35',
+    dateFrom: '2020-08-11T9:15',
+    dateTo: '2020-08-16T13:35',
     destination: '2',
     isFavorite: false,
     offers: [3],
@@ -25,8 +25,8 @@ const mockPoints = [
     type: 'flight'
   }, {
     basePrice: 1300,
-    dateFrom: '2019-05-15T10:15',
-    dateTo: '2019-05-16T12:35',
+    dateFrom: '2020-05-15T10:15',
+    dateTo: '2020-05-16T12:35',
     destination: '3',
     isFavorite: true,
     offers: [],
