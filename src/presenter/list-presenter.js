@@ -53,6 +53,10 @@ export class ListPresenter {
       onSubmitForm: () => {
         replaceFormToPoint();
         document.removeEventListener('keydown', escKeyDownHandler);
+      },
+      onCloseForm: () => {
+        replaceFormToPoint();
+        document.removeEventListener('keydown', escKeyDownHandler);
       }
     });
 
