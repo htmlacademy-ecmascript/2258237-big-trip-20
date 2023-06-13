@@ -4,7 +4,7 @@ import { InfoCitiesView } from '../view/trip-info-cities.js';
 import { InfoDatesView } from '../view/trip-info-dates.js';
 import { InfoPriceView } from '../view/trip-info-price.js';
 
-import { getCitiesInOrder, getCitiesList } from '../utils/cities-order.js';
+import { getCitiesInOrder, getCitiesList, getMainDates } from '../utils/extra-info.js';
 
 export class TripInfoPresenter {
   #tripInfoContainer = null;
@@ -21,6 +21,7 @@ export class TripInfoPresenter {
     this.#pointsModel = pointsModel;
   }
 
+
   init() {
     this.#listPoints = [...this.#pointsModel.points];
     this.#offers = [...this.#pointsModel.offers];
@@ -28,6 +29,7 @@ export class TripInfoPresenter {
 
     this.#renderInfoContainer();
   }
+
 
   #renderCities(points, destinations) {
     const citiesInTripOrder = getCitiesInOrder(points, destinations);
@@ -37,21 +39,27 @@ export class TripInfoPresenter {
     render(citiesComponent, this.#tripInfoList.element.querySelector('.trip-info__main'));
   }
 
-  #renderDates() {
-    const datesComponent = new InfoDatesView();
+
+  #renderDates(points) {
+    const mainDates = getMainDates(points);
+    console.log(mainDates);
+
+    const datesComponent = new InfoDatesView(mainDates);
     render(datesComponent, this.#tripInfoList.element.querySelector('.trip-info__main'));
   }
+
 
   #renderPrice() {
     const priceComponent = new InfoPriceView();
     render(priceComponent, this.#tripInfoList.element);
   }
 
+
   #renderInfoContainer() {
     render(this.#tripInfoList, this.#tripInfoContainer, RenderPosition.AFTERBEGIN);
 
     this.#renderCities(this.#listPoints, this.#destinations);
-    this.#renderDates();
+    this.#renderDates(this.#listPoints);
     this.#renderPrice();
   }
 }

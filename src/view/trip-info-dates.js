@@ -1,14 +1,21 @@
 import AbstractView from '../framework/view/abstract-view.js';
 
-function createNewInfoDatesTemplate() {
+function createNewInfoDatesTemplate(mainDates) {
   return (`
-    <p class="trip-info__dates">Mar 18&nbsp;&mdash;&nbsp;20</p>
+    <p class="trip-info__dates">${mainDates[0]}&nbsp;&mdash;&nbsp;${mainDates[1]}</p>
   `);
 }
 
 
 export class InfoDatesView extends AbstractView {
+  #mainDates = null;
+
+  constructor(dates) {
+    super();
+    this.#mainDates = dates;
+  }
+
   get template() {
-    return createNewInfoDatesTemplate();
+    return createNewInfoDatesTemplate(this.#mainDates);
   }
 }
