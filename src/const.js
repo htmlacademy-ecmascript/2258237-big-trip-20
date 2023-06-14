@@ -10,6 +10,11 @@ const TYPES = {
   RESTAURANT: 'restaurant'
 };
 
-const POINTS_COUNT = 3;
+const FilterType = {
+  EVERYTHING: 'everything',
+  FUTURE: 'future',
+  PRESENT: 'present',
+  PAST: 'past'
+};
 
-export {TYPES, POINTS_COUNT};
+export {TYPES, FilterType};

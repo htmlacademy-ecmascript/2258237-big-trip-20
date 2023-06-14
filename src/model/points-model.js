@@ -19,3 +19,5 @@ export class PointsModel {
     return this.#destinations;
   }
 }
+
+// export class
