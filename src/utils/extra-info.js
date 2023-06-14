@@ -24,15 +24,16 @@ function getCitiesList (citiesList) {
 }
 
 function getMainDates (points) {
-  return [humanizePointDueTime(points[0].dateFrom, 'MMMM DD'), humanizePointDueTime(points[points.length - 1].dateTo, 'MMMM DD')];
+  return (points.length > 0) ? [humanizePointDueTime(points[0].dateFrom, 'MMMM DD'), humanizePointDueTime(points[points.length - 1].dateTo, 'MMMM DD')] : '';
 }
 
 function getTotalTripPrice (points, offers) {
+  if (points.length < 1) {
+    return '';
+  }
   const basePrices = points.map((point) => point.basePrice).reduce((total, current) => total + current);
   const extraOffers = points.map((point) => getOffersByType(offers, point.type));
   let offersPrice = 0;
-
-  console.log(points)
 
   for (let i = 0; i < points.length; i++) {
     points[i].offers.map((currentOffer) => extraOffers[i].find((offer) => offer.id === currentOffer)).forEach((item) => offersPrice += item.price);

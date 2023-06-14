@@ -1,6 +1,7 @@
 import { EditPointView } from '../view/edit-point.js';
 import { TripPointView } from '../view/trip-point.js';
 import { ListView } from '../view/list.js';
+import { NoPointsView } from '../view/no-points.js';
 import { render, replace } from '../framework/render.js';
 
 
@@ -9,6 +10,7 @@ export class ListPresenter {
   #pointsModel = null;
 
   #tripList = new ListView();
+  #noPointsComponent = new NoPointsView();
 
   #listPoints = null;
   #offers = null;
@@ -72,11 +74,20 @@ export class ListPresenter {
   }
 
 
+  #renderNoPoints() {
+    render(this.#noPointsComponent, this.#listContainer);
+  }
+
+
   #renderPointsList() {
     render(this.#tripList, this.#listContainer);
 
     for (let i = 0; i < this.#listPoints.length; i++) {
       this.#renderPoint(this.#listPoints[i]);
+    }
+
+    if (this.#listPoints.length === 0) {
+      this.#renderNoPoints();
     }
   }
 }
