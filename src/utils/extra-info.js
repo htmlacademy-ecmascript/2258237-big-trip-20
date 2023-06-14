@@ -32,6 +32,8 @@ function getTotalTripPrice (points, offers) {
   const extraOffers = points.map((point) => getOffersByType(offers, point.type));
   let offersPrice = 0;
 
+  console.log(points)
+
   for (let i = 0; i < points.length; i++) {
     points[i].offers.map((currentOffer) => extraOffers[i].find((offer) => offer.id === currentOffer)).forEach((item) => offersPrice += item.price);
   }
