@@ -1,7 +1,8 @@
 import { PointPresenter } from './point-presenter.js';
 import { ListView } from '../view/list.js';
 import { NoPointsView } from '../view/no-points.js';
-import { render, replace, remove } from '../framework/render.js';
+import { render } from '../framework/render.js';
+import { updateItem } from '../utils.js';
 
 
 export class ListPresenter {
@@ -34,6 +35,7 @@ export class ListPresenter {
   #renderPoint(point) {
     const pointPresenter = new PointPresenter({
       pointListContainer: this.#tripList,
+      onDataChange: this.#handlePointChange,
     });
     pointPresenter.init(point, this.#offers, this.#destinations);
     this.#pointPresenters.set(point.id, pointPresenter);
@@ -48,6 +50,11 @@ export class ListPresenter {
     this.#pointPresenters.forEach((presenter) => presenter.destroy());
     this.#pointPresenters.clear();
   }
+
+  #handlePointChange = (updatedPoint) => {
+    this.#listPoints = updateItem(this.#listPoints, updatedPoint);
+    this.#pointPresenters.get(updatedPoint.id).init(updatedPoint);
+  };
 
 
   #renderPointsList() {
