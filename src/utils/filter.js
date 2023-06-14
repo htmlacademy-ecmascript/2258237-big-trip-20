@@ -9,7 +9,7 @@ function isFutureDate(date) {
 }
 
 function isPresentDate(dateFrom, dateTo) {
-  return dayjs().isBetween(dayjs(dateFrom), dayjs(dateTo));
+  return dayjs().isBetween(dayjs(dateFrom), dayjs(dateTo), null, '[]');
 }
 
 function isPastDate(date) {
