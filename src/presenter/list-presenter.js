@@ -37,6 +37,7 @@ export class ListPresenter {
       pointListContainer: this.#tripList,
       onDataChange: this.#handlePointChange,
     });
+
     pointPresenter.init(point, this.#offers, this.#destinations);
     this.#pointPresenters.set(point.id, pointPresenter);
   }
@@ -53,7 +54,7 @@ export class ListPresenter {
 
   #handlePointChange = (updatedPoint) => {
     this.#listPoints = updateItem(this.#listPoints, updatedPoint);
-    this.#pointPresenters.get(updatedPoint.id).init(updatedPoint);
+    this.#pointPresenters.get(updatedPoint.id).init(updatedPoint, this.#offers, this.#destinations);
   };
 
 
