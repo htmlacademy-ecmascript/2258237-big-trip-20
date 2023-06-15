@@ -14,4 +14,5 @@ function sortPointsByPrice (a, b) {
   return a.basePrice > b.basePrice ? -1 : 1;
 }
 
+
 export {sortPointsByDate, sortPointsByTime, sortPointsByPrice};
