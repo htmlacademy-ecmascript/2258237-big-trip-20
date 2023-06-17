@@ -44,7 +44,7 @@ function createEventDetailsTemplate (allOffers, type, checkedOffers, destination
 }
 
 function createOffersTemplate (allOffers, type, checkedOffers) {
-  const offersByCurrentType = allOffers.find((item) => item.type === type).offers;
+  const offersByCurrentType = allOffers.find((item) => item.type === type).offers ?? [];
 
   return (`
     ${offersByCurrentType.map((offer) => `
@@ -177,6 +177,7 @@ export class EditPointView extends AbstractStatefulView {
   #changeTypeHandler = (evt) => {
     this.updateElement({
       type: `${evt.target.value}`,
+      offers: [],
     });
   };
 
@@ -193,9 +194,19 @@ export class EditPointView extends AbstractStatefulView {
 
   #changeOfferesHandler = (evt) => {
     if (evt.target.checked) {
-      this._state.offers.push(Number(evt.target.name.slice(12)));
+      const refreshedOffers = [...this._state.offers];
+      refreshedOffers.push(Number(evt.target.name.slice(12)));
+
+      this.updateElement({
+        offers: refreshedOffers,
+      });
     } else {
-      this._state.offers.splice(this._state.offers.indexOf(Number(evt.target.name.slice(12))), 1);
+      const refreshedOffers = [...this._state.offers];
+      refreshedOffers.splice(this._state.offers.indexOf(Number(evt.target.name.slice(12))), 1);
+
+      this.updateElement({
+        offers: refreshedOffers,
+      });
     }
   };
 
