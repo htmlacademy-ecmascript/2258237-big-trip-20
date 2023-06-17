@@ -1,6 +1,6 @@
 import { TYPES } from '../const.js';
 import { humanizePointDueTime, upFirstLetter } from '../utils.js';
-import AbstractView from '../framework/view/abstract-view.js';
+import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 
 
 function createEventTypesTemplate (types) {
@@ -44,12 +44,12 @@ function createEventDetailsTemplate (allOffers, type, checkedOffers, destination
 }
 
 function createOffersTemplate (allOffers, type, checkedOffers) {
-  const offersByCurrentType = allOffers.find((item) => item.type === type).offers;
+  const offersByCurrentType = allOffers.find((item) => item.type === type).offers ?? [];
 
   return (`
     ${offersByCurrentType.map((offer) => `
       <div class="event__offer-selector">
-      <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.id}-1" type="checkbox"      name="event-offer-${offer.id}" ${isCheckedOffer(offer.id, checkedOffers)}>
+      <input class="event__offer-checkbox  visually-hidden" id="event-offer-${offer.id}-1" type="checkbox" name="event-offer-${offer.id}" ${isCheckedOffer(offer.id, checkedOffers)}>
       <label class="event__offer-label" for="event-offer-${offer.id}-1">
         <span class="event__offer-title">${offer.title}</span>
         &plus;&euro;&nbsp;
@@ -94,7 +94,7 @@ function createEditPointTemplate (point, fullOffersList, destinations) {
           <label class="event__label  event__type-output" for="event-destination-1">
             ${type}
           </label>
-
+          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destinations.find((city) => city.id === destination).name}" list="destination-list-1">
           <datalist id="destination-list-1">
             ${createDestinationListTemplate(destinations)}
           </datalist>
@@ -129,8 +129,7 @@ function createEditPointTemplate (point, fullOffersList, destinations) {
 }
 
 
-export class EditPointView extends AbstractView {
-  #point = null;
+export class EditPointView extends AbstractStatefulView {
   #offers = null;
   #destinations = null;
   #handleSubmitForm = null;
@@ -138,27 +137,86 @@ export class EditPointView extends AbstractView {
 
   constructor ({point, offers, destinations, onSubmitForm, onCloseForm}) {
     super();
-    this.#point = point;
+    this._setState(EditPointView.parsePointToState(point));
     this.#offers = offers;
     this.#destinations = destinations;
     this.#handleSubmitForm = onSubmitForm;
     this.#handleCloseForm = onCloseForm;
 
+    this._restoreHandlers();
+  }
+
+  reset(point) {
+    this.updateElement(
+      EditPointView.parsePointToState(point),
+    );
+  }
+
+  _restoreHandlers() {
     this.element.querySelector('.event__save-btn').addEventListener('submit', this.#submitFormHandler);
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#closeFormHandler);
+    this.element.querySelectorAll('.event__type-input').forEach((elem) => elem.addEventListener('click', this.#changeTypeHandler));
+    this.element.querySelector('.event__input--destination').addEventListener('input', this.#changeCityHandler);
+    this.element.querySelectorAll('.event__offer-checkbox').forEach((elem) => elem.addEventListener('click', this.#changeOfferesHandler));
   }
 
   get template() {
-    return createEditPointTemplate(this.#point, this.#offers, this.#destinations);
+    return createEditPointTemplate(this._state, this.#offers, this.#destinations);
   }
 
   #submitFormHandler = (evt) => {
     evt.preventDefault();
-    this.#handleSubmitForm(this.#point);
+    this.#handleSubmitForm(EditPointView.parseStateToPoint(this._state));
   };
 
   #closeFormHandler = (evt) => {
     evt.preventDefault();
     this.#handleCloseForm();
   };
+
+  #changeTypeHandler = (evt) => {
+    this.updateElement({
+      type: `${evt.target.value}`,
+      offers: [],
+    });
+  };
+
+  #getCityIdByText = (destinations, inp) => (destinations.find((destination) => destination.name === inp)) ? destinations.find((destination) => destination.name === inp).id : null;
+
+  #changeCityHandler = (evt) => {
+    evt.preventDefault();
+    if (this.#getCityIdByText(this.#destinations, evt.target.value) !== null) {
+      this.updateElement({
+        destination: `${this.#getCityIdByText(this.#destinations, evt.target.value)}`,
+      });
+    }
+  };
+
+  #changeOfferesHandler = (evt) => {
+    if (evt.target.checked) {
+      const refreshedOffers = [...this._state.offers];
+      refreshedOffers.push(Number(evt.target.name.slice(12)));
+
+      this.updateElement({
+        offers: refreshedOffers,
+      });
+    } else {
+      const refreshedOffers = [...this._state.offers];
+      refreshedOffers.splice(this._state.offers.indexOf(Number(evt.target.name.slice(12))), 1);
+
+      this.updateElement({
+        offers: refreshedOffers,
+      });
+    }
+  };
+
+
+  static parsePointToState(point) {
+    return {...point};
+  }
+
+  static parseStateToPoint(state) {
+    const point = {...state};
+    return point;
+  }
 }
