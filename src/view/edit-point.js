@@ -1,7 +1,9 @@
 import { TYPES } from '../const.js';
 import { humanizePointDueTime, upFirstLetter } from '../utils.js';
 import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
-
+import flatpickr from 'flatpickr';
+import 'flatpickr/dist/flatpickr.min.css';
+import dayjs from 'dayjs';
 
 function createEventTypesTemplate (types) {
   return (`
@@ -134,6 +136,8 @@ export class EditPointView extends AbstractStatefulView {
   #destinations = null;
   #handleSubmitForm = null;
   #handleCloseForm = null;
+  #dateFromPicker = null;
+  #dateToPicker = null;
 
   constructor ({point, offers, destinations, onSubmitForm, onCloseForm}) {
     super();
@@ -144,6 +148,20 @@ export class EditPointView extends AbstractStatefulView {
     this.#handleCloseForm = onCloseForm;
 
     this._restoreHandlers();
+  }
+
+  removeElement() {
+    super.removeElement();
+
+    if (this.#dateFromPicker) {
+      this.#dateFromPicker.destroy();
+      this.#dateFromPicker = null;
+    }
+
+    if (this.#dateToPicker) {
+      this.#dateToPicker.destroy();
+      this.#dateToPicker = null;
+    }
   }
 
   reset(point) {
@@ -158,6 +176,9 @@ export class EditPointView extends AbstractStatefulView {
     this.element.querySelectorAll('.event__type-input').forEach((elem) => elem.addEventListener('click', this.#changeTypeHandler));
     this.element.querySelector('.event__input--destination').addEventListener('input', this.#changeCityHandler);
     this.element.querySelectorAll('.event__offer-checkbox').forEach((elem) => elem.addEventListener('click', this.#changeOfferesHandler));
+
+    this.#setDateFrompicker();
+    this.#setDateTopicker();
   }
 
   get template() {
@@ -209,6 +230,42 @@ export class EditPointView extends AbstractStatefulView {
       });
     }
   };
+
+  #dueDateFromChangeHandler = ([userDate]) => {
+    this.updateElement({
+      dateFrom: dayjs(userDate).format('YYYY-MM-DDTHH:mm'),
+    });
+  };
+
+  #setDateFrompicker() {
+    this.#dateFromPicker = flatpickr(
+      this.element.querySelector('#event-start-time-1'),
+      {
+        enableTime: true,
+        dateFormat: 'd\\/m\\/y\\ H\\:i',
+        defaultDate: dayjs(this._state.dateFrom).format('DD-MM-YY HH:mm'),
+        onChange: this.#dueDateFromChangeHandler,
+      },
+    );
+  }
+
+  #dueDateToChangeHandler = ([userDate]) => {
+    this.updateElement({
+      dateTo: dayjs(userDate).format('YYYY-MM-DDTHH:mm'),
+    });
+  };
+
+  #setDateTopicker() {
+    this.#dateToPicker = flatpickr(
+      this.element.querySelector('#event-end-time-1'),
+      {
+        enableTime: true,
+        dateFormat: 'd\\/m\\/y\\ H\\:i',
+        defaultDate: dayjs(this._state.dateTo).format('DD-MM-YY HH:mm'),
+        onChange: this.#dueDateToChangeHandler,
+      },
+    );
+  }
 
 
   static parsePointToState(point) {
