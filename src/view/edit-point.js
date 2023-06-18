@@ -243,6 +243,7 @@ export class EditPointView extends AbstractStatefulView {
       {
         enableTime: true,
         dateFormat: 'd\\/m\\/y\\ H\\:i',
+        maxDate: dayjs(this._state.dateTo).format('DD-MM-YY HH:mm'),
         defaultDate: dayjs(this._state.dateFrom).format('DD-MM-YY HH:mm'),
         onChange: this.#dueDateFromChangeHandler,
       },
@@ -261,6 +262,7 @@ export class EditPointView extends AbstractStatefulView {
       {
         enableTime: true,
         dateFormat: 'd\\/m\\/y\\ H\\:i',
+        minDate: dayjs(this._state.dateFrom).format('DD-MM-YY HH:mm'),
         defaultDate: dayjs(this._state.dateTo).format('DD-MM-YY HH:mm'),
         onChange: this.#dueDateToChangeHandler,
       },
@@ -277,4 +279,3 @@ export class EditPointView extends AbstractStatefulView {
     return point;
   }
 }
-
