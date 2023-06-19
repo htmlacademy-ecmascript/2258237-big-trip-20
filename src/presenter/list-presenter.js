@@ -3,20 +3,23 @@ import { ListView } from '../view/list.js';
 import { SortingView } from '../view/sort.js';
 import { NoPointsView } from '../view/no-points.js';
 import { render, RenderPosition, remove } from '../framework/render.js';
+import { filter } from '../utils/filter.js';
 
-import { SortType, UpdateType, UserAction } from '../const.js';
+import { SortType, UpdateType, UserAction, FilterType } from '../const.js';
 import { sortPointsByDate, sortPointsByTime, sortPointsByPrice } from '../utils/sort.js';
 
 
 export class ListPresenter {
   #listContainer = null;
   #pointsModel = null;
+  #filterModel = null;
   #sortComponent = null;
+  #noPointsComponent = null;
 
   #tripList = new ListView();
-  #noPointsComponent = new NoPointsView();
 
   #currentSortType = SortType.DAY;
+  #filterType = FilterType.EVERYTHING;
 
   // #listPoints = null;
   #offers = null;
@@ -24,21 +27,27 @@ export class ListPresenter {
 
   #pointPresenters = new Map();
 
-  constructor({listContainer, pointsModel}) {
+  constructor({listContainer, pointsModel, filterModel}) {
     this.#listContainer = listContainer;
     this.#pointsModel = pointsModel;
+    this.#filterModel = filterModel;
 
     this.#pointsModel.addObserver(this.#handleModelEvent);
+    this.#filterModel.addObserver(this.#handleModelEvent);
   }
 
   get points() {
+    this.#filterType = this.#filterModel.filter;
+    const points = this.#pointsModel.points;
+    const filteredPoints = filter[this.#filterType](points);
+
     switch (this.#currentSortType) {
       case SortType.DAY:
-        return this.#pointsModel.points.sort(sortPointsByDate);
+        return filteredPoints.sort(sortPointsByDate);
       case SortType.TIME:
-        return this.#pointsModel.points.sort(sortPointsByTime);
+        return filteredPoints.sort(sortPointsByTime);
       case SortType.PRICE:
-        return this.#pointsModel.points.sort(sortPointsByPrice);
+        return filteredPoints.sort(sortPointsByPrice);
     }
   }
 
@@ -63,8 +72,13 @@ export class ListPresenter {
 
 
   #renderNoPoints() {
+    this.#noPointsComponent = new NoPointsView({
+      filterType: this.#filterType,
+    });
+
     render(this.#noPointsComponent, this.#listContainer);
   }
+
 
   #handleSortTypeChange = (sortType) => {
     if (this.#currentSortType === sortType) {
@@ -75,6 +89,7 @@ export class ListPresenter {
     this.#clearPointsList();
     this.#renderPointsList();
   };
+
 
   #renderSort() {
     this.#sortComponent = new SortingView({
@@ -89,7 +104,6 @@ export class ListPresenter {
   #handleModeChange = () => {
     this.#pointPresenters.forEach((presenter) => presenter.resetView());
   };
-
 
   #handleViewAction = (actionType, updateType, update) => {
     switch (actionType) {
@@ -127,7 +141,10 @@ export class ListPresenter {
     this.#pointPresenters.clear();
 
     remove(this.#sortComponent);
-    remove(this.#noPointsComponent);
+
+    if (this.#noPointsComponent) {
+      remove(this.#noPointsComponent);
+    }
 
     if (resetSortType) {
       this.#currentSortType = SortType.DAY;

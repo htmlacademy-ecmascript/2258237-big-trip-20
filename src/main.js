@@ -1,10 +1,8 @@
-import { FiltersView } from './view/filter.js';
-import { render } from './framework/render.js';
 import { ListPresenter } from './presenter/list-presenter.js';
 import { TripInfoPresenter } from './presenter/trip-info-presenter.js';
+import { FilterPresenter } from './presenter/filter-presenter.js';
 import { PointsModel } from './model/points-model.js';
-
-import { generateFilter } from './mock/filter.js';
+import { FilterModel } from './model/filter-model.js';
 
 
 const siteHeaderElement = document.querySelector('.page-header');
@@ -13,17 +11,24 @@ const siteHeaderInfo = document.querySelector('.trip-main');
 const siteHeaderTripControls = siteHeaderElement.querySelector('.trip-controls__filters');
 const siteMainEvents = siteMainElement.querySelector('.trip-events');
 
+
 const pointsModel = new PointsModel();
 const tripInfoPresenter = new TripInfoPresenter({
   tripInfoContainer: siteHeaderInfo, pointsModel
 });
+const filterModel = new FilterModel();
+const filterPresenter = new FilterPresenter({
+  filterContainer: siteHeaderTripControls,
+  filterModel,
+  pointsModel,
+});
 const listPresenter = new ListPresenter({
-  listContainer: siteMainEvents, pointsModel
+  listContainer: siteMainEvents,
+  pointsModel,
+  filterModel,
 });
 
-const filters = generateFilter(pointsModel.points);
 
-
-render(new FiltersView({filters}), siteHeaderTripControls);
 tripInfoPresenter.init();
+filterPresenter.init();
 listPresenter.init();
