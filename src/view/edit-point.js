@@ -202,6 +202,7 @@ export class EditPointView extends AbstractStatefulView {
     this.element.querySelectorAll('.event__type-input').forEach((elem) => elem.addEventListener('click', this.#changeTypeHandler));
     this.element.querySelector('.event__input--destination').addEventListener('input', this.#changeCityHandler);
     this.element.querySelectorAll('.event__offer-checkbox').forEach((elem) => elem.addEventListener('click', this.#changeOfferesHandler));
+    this.element.querySelector('.event__input--price').addEventListener('input', this.#changePriceHandler);
 
     this.#setDateFrompicker();
     this.#setDateTopicker();
@@ -242,6 +243,11 @@ export class EditPointView extends AbstractStatefulView {
         destination: `${this.#getCityIdByText(this.#destinations, evt.target.value)}`,
       });
     }
+  };
+
+  #changePriceHandler = (evt) => {
+    evt.preventDefault();
+    this._state.basePrice = evt.target.value;
   };
 
   #changeOfferesHandler = (evt) => {
