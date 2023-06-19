@@ -136,16 +136,18 @@ export class EditPointView extends AbstractStatefulView {
   #destinations = null;
   #handleSubmitForm = null;
   #handleCloseForm = null;
+  #handleDeleteClick = null;
   #dateFromPicker = null;
   #dateToPicker = null;
 
-  constructor ({point, offers, destinations, onSubmitForm, onCloseForm}) {
+  constructor ({point, offers, destinations, onSubmitForm, onCloseForm, onDeleteForm}) {
     super();
     this._setState(EditPointView.parsePointToState(point));
     this.#offers = offers;
     this.#destinations = destinations;
     this.#handleSubmitForm = onSubmitForm;
     this.#handleCloseForm = onCloseForm;
+    this.#handleDeleteClick = onDeleteForm;
 
     this._restoreHandlers();
   }
@@ -171,8 +173,9 @@ export class EditPointView extends AbstractStatefulView {
   }
 
   _restoreHandlers() {
-    this.element.querySelector('.event__save-btn').addEventListener('submit', this.#submitFormHandler);
+    this.element.querySelector('.event__save-btn').addEventListener('click', this.#submitFormHandler);
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#closeFormHandler);
+    this.element.querySelector('.event__reset-btn').addEventListener('click', this.#deleteFormHandler);
     this.element.querySelectorAll('.event__type-input').forEach((elem) => elem.addEventListener('click', this.#changeTypeHandler));
     this.element.querySelector('.event__input--destination').addEventListener('input', this.#changeCityHandler);
     this.element.querySelectorAll('.event__offer-checkbox').forEach((elem) => elem.addEventListener('click', this.#changeOfferesHandler));
@@ -193,6 +196,11 @@ export class EditPointView extends AbstractStatefulView {
   #closeFormHandler = (evt) => {
     evt.preventDefault();
     this.#handleCloseForm();
+  };
+
+  #deleteFormHandler = (evt) => {
+    evt.preventDefault();
+    this.#handleDeleteClick(EditPointView.parseStateToPoint(this._state));
   };
 
   #changeTypeHandler = (evt) => {

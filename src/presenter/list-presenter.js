@@ -72,22 +72,17 @@ export class ListPresenter {
     }
 
     this.#currentSortType = sortType;
-    this.#clearPointList();
-    this.#renderPoints();
+    this.#clearPointsList();
+    this.#renderPointsList();
   };
 
   #renderSort() {
     this.#sortComponent = new SortingView({
+      currentSortType: this.#currentSortType,
       onSortTypeChange: this.#handleSortTypeChange,
     });
 
     render(this.#sortComponent, this.#listContainer, RenderPosition.AFTERBEGIN);
-  }
-
-
-  #clearPointList() {
-    this.#pointPresenters.forEach((presenter) => presenter.destroy());
-    this.#pointPresenters.clear();
   }
 
 
