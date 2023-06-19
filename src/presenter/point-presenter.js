@@ -1,6 +1,7 @@
 import { render, replace, remove } from '../framework/render.js';
 import { EditPointView } from '../view/edit-point.js';
 import { TripPointView } from '../view/trip-point.js';
+import { UserAction, UpdateType } from '../const.js';
 
 const Mode = {
   DEFAULT: 'DEFAULT',
@@ -104,7 +105,12 @@ export class PointPresenter {
   };
 
   #handleSubmitForm = (point) => {
-    this.#handleDataChange(point);
+    // this.#handleDataChange(point);
+    this.#handleDataChange(
+      UserAction.UPDATE_POINT,
+      UpdateType.MINOR,
+      point,
+    );
     this.#replaceFormToPoint();
   };
 
@@ -114,6 +120,11 @@ export class PointPresenter {
   };
 
   #handleFavoriteClick = () => {
-    this.#handleDataChange({...this.#point, isFavorite: !this.#point.isFavorite});
+    // this.#handleDataChange({...this.#point, isFavorite: !this.#point.isFavorite});
+    this.#handleDataChange(
+      UserAction.UPDATE_POINT,
+      UpdateType.MINOR,
+      {...this.#point, isFavorite: !this.#point.isFavorite},
+    );
   };
 }

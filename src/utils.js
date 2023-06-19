@@ -43,9 +43,9 @@ const getOffersByType = (fullListOffers, currentType) => {
 
 const upFirstLetter = (text) => text[0].toUpperCase() + text.slice(1);
 
-function updateItem(items, update) {
-  return items.map((item) => item.id === update.id ? update : item);
-}
+// function updateItem(items, update) {
+//   return items.map((item) => item.id === update.id ? update : item);
+// }
 
 
-export {getRandomArrayElement, humanizePointDueTime, getOffersByType, getPointDuration, upFirstLetter, updateItem};
+export {getRandomArrayElement, humanizePointDueTime, getOffersByType, getPointDuration, upFirstLetter };
