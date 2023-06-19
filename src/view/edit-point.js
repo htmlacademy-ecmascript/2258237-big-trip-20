@@ -4,6 +4,7 @@ import AbstractStatefulView from '../framework/view/abstract-stateful-view.js';
 import flatpickr from 'flatpickr';
 import 'flatpickr/dist/flatpickr.min.css';
 import dayjs from 'dayjs';
+import { EditingType } from '../const.js';
 
 function createEventTypesTemplate (types) {
   return (`
@@ -87,8 +88,9 @@ function createPhotosTemplate (currentCityPhotos) {
 }
 
 
-function createEditPointTemplate (point, fullOffersList, destinations) {
+function createEditPointTemplate (point, fullOffersList, destinations, editingType) {
   const {basePrice, dateFrom, dateTo, destination, type, offers} = point;
+  const deleteButton = (editingType === EditingType.CREATING) ? 'Delete' : 'Cancel';
 
   return (
     `<li class="trip-events__item">
@@ -136,7 +138,7 @@ function createEditPointTemplate (point, fullOffersList, destinations) {
         </div>
 
         <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
-        <button class="event__reset-btn" type="reset">Delete</button>
+        <button class="event__reset-btn" type="reset">${deleteButton}</button>
         <button class="event__rollup-btn" type="button">
           <span class="visually-hidden">Open event</span>
         </button>
@@ -157,7 +159,9 @@ export class EditPointView extends AbstractStatefulView {
   #dateFromPicker = null;
   #dateToPicker = null;
 
-  constructor ({point, offers, destinations, onSubmitForm, onCloseForm, onDeleteForm}) {
+  #editingType = null;
+
+  constructor ({point, offers, destinations, onSubmitForm, onCloseForm, onDeleteForm, creatingPoint = false}) {
     super();
     this._setState(EditPointView.parsePointToState(point));
     this.#offers = offers;
@@ -165,6 +169,8 @@ export class EditPointView extends AbstractStatefulView {
     this.#handleSubmitForm = onSubmitForm;
     this.#handleCloseForm = onCloseForm;
     this.#handleDeleteClick = onDeleteForm;
+
+    this.#editingType = (creatingPoint) ? EditingType.EDITING : EditingType.CREATING;
 
     this._restoreHandlers();
   }
@@ -202,7 +208,7 @@ export class EditPointView extends AbstractStatefulView {
   }
 
   get template() {
-    return createEditPointTemplate(this._state, this.#offers, this.#destinations);
+    return createEditPointTemplate(this._state, this.#offers, this.#destinations, this.#editingType);
   }
 
   #submitFormHandler = (evt) => {

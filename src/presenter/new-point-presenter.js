@@ -42,6 +42,7 @@ export class NewPointPresenter {
       destinations: this.#destinations,
       onSubmitForm: this.#handleSubmitForm,
       onDeleteForm: this.#handleDeleteClick,
+      creatingPoint: true,
     });
 
     render(this.#pointEditComponent, this.#pointListContainer.element, RenderPosition.AFTERBEGIN);
