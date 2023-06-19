@@ -1,8 +1,11 @@
+import { NewPointButtonView } from './view/new-point-button.js';
 import { ListPresenter } from './presenter/list-presenter.js';
 import { TripInfoPresenter } from './presenter/trip-info-presenter.js';
 import { FilterPresenter } from './presenter/filter-presenter.js';
 import { PointsModel } from './model/points-model.js';
 import { FilterModel } from './model/filter-model.js';
+import { render } from './framework/render.js';
+import { RenderPosition } from './framework/render.js';
 
 
 const siteHeaderElement = document.querySelector('.page-header');
@@ -26,7 +29,23 @@ const listPresenter = new ListPresenter({
   listContainer: siteMainEvents,
   pointsModel,
   filterModel,
+  onNewPointDestroy: handleNewPointFormClose,
 });
+
+const newPointButtonComponent = new NewPointButtonView({
+  onClick: handleNewPointButtonClick,
+});
+
+function handleNewPointFormClose() {
+  newPointButtonComponent.element.disabled = false;
+}
+
+function handleNewPointButtonClick() {
+  listPresenter.createPoint();
+  newPointButtonComponent.element.disabled = true;
+}
+
+render(newPointButtonComponent, siteHeaderInfo, RenderPosition.BEFOREEND);
 
 
 tripInfoPresenter.init();

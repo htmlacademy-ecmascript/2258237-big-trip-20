@@ -19,34 +19,51 @@ function createDestinationListTemplate (destinationss) {
   return (`${destinationss.map((item) => `<option value="${item.name}"></option>`).join('')}`);
 }
 
+
+function createOffersSectionTemplate (allOffers, type, checkedOffers) {
+  return (`
+    <section class="event__section  event__section--offers">
+      <h3 class="event__section-title  event__section-title--offers">Offers</h3>
+      <div class="event__available-offers">
+        ${createOffersTemplate(allOffers, type, checkedOffers)}
+      </div>
+    </section>
+  `);
+}
+
+function createDestinationSectionTemplate (destinations, destination) {
+  if (destination === undefined) {
+    return '';
+  }
+
+  return (`
+    <section class="event__section  event__section--destination">
+      <h3 class="event__section-title  event__section-title--destination">Destination</h3>
+      <p class="event__destination-description">
+        ${destinations.find((object) => object.id === destination).description}
+      </p>
+
+      <div class="event__photos-container">
+        <div class="event__photos-tape">
+          ${createPhotosTemplate(destinations.find((object) => object.id === destination).pictures)}
+        </div>
+      </div>
+    </section>
+  `);
+}
+
+
 function createEventDetailsTemplate (allOffers, type, checkedOffers, destinations, destination) {
   return (`
     <section class="event__details">
-      <section class="event__section  event__section--offers">
-        <h3 class="event__section-title  event__section-title--offers">Offers</h3>
-        <div class="event__available-offers">
-          ${createOffersTemplate(allOffers, type, checkedOffers)}
-        </div>
-      </section>
-
-      <section class="event__section  event__section--destination">
-        <h3 class="event__section-title  event__section-title--destination">Destination</h3>
-        <p class="event__destination-description">
-        ${destinations.find((object) => object.id === destination).description}
-        </p>
-
-        <div class="event__photos-container">
-          <div class="event__photos-tape">
-            ${createPhotosTemplate(destinations.find((object) => object.id === destination).pictures)}
-          </div>
-        </div>
-      </section>
+      ${createOffersSectionTemplate(allOffers, type, checkedOffers)}
+      ${createDestinationSectionTemplate(destinations, destination)}
     </section>
   `);
 }
 
 function createOffersTemplate (allOffers, type, checkedOffers) {
-  const offersByCurrentType = allOffers.find((item) => item.type === type).offers ?? [];
+  const offersByCurrentType = (type === undefined) ? [] : allOffers.find((item) => item.type === type).offers;
 
   return (`
     ${offersByCurrentType.map((offer) => `
@@ -96,7 +113,7 @@ function createEditPointTemplate (point, fullOffersList, destinations) {
           <label class="event__label  event__type-output" for="event-destination-1">
             ${type}
           </label>
-          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${destinations.find((city) => city.id === destination).name}" list="destination-list-1">
+          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${(point.destination === undefined) ? '' : destinations.find((city) => city.id === destination).name}" list="destination-list-1">
           <datalist id="destination-list-1">
             ${createDestinationListTemplate(destinations)}
           </datalist>
