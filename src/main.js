@@ -17,7 +17,8 @@ const siteMainEvents = siteMainElement.querySelector('.trip-events');
 
 const pointsModel = new PointsModel();
 const tripInfoPresenter = new TripInfoPresenter({
-  tripInfoContainer: siteHeaderInfo, pointsModel
+  tripInfoContainer: siteHeaderInfo,
+  pointsModel,
 });
 const filterModel = new FilterModel();
 const filterPresenter = new FilterPresenter({
