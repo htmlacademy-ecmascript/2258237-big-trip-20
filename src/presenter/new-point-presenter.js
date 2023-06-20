@@ -1,6 +1,6 @@
 import { remove, render, RenderPosition } from '../framework/render.js';
 import { EditPointView } from '../view/edit-point.js';
-import { nanoid } from 'nanoid';
+// import { nanoid } from 'nanoid';
 import { UserAction, UpdateType } from '../const.js';
 import dayjs from 'dayjs';
 
@@ -30,7 +30,7 @@ export class NewPointPresenter {
 
     this.#pointEditComponent = new EditPointView({
       point: {
-        id: nanoid(),
+        // id: nanoid(),
         basePrice: '',
         dateFrom: dayjs().format(),
         dateTo: dayjs().format(),
@@ -38,8 +38,8 @@ export class NewPointPresenter {
         offers: [],
         type: 'flight'
       },
-      offers: this.#offers,
-      destinations: this.#destinations,
+      offers,
+      destinations,
       onSubmitForm: this.#handleSubmitForm,
       onDeleteForm: this.#handleDeleteClick,
       creatingPoint: true,
