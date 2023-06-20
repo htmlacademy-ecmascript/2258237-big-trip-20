@@ -3,6 +3,7 @@ import { NewPointPresenter } from './new-point-presenter.js';
 import { ListView } from '../view/list.js';
 import { SortingView } from '../view/sort.js';
 import { NoPointsView } from '../view/no-points.js';
+import { LodaingView } from '../view/loading.js';
 
 import { render, RenderPosition, remove } from '../framework/render.js';
 import { filter } from '../utils/filter.js';
@@ -17,12 +18,14 @@ export class ListPresenter {
   #filterModel = null;
   #sortComponent = null;
   #noPointsComponent = null;
+  #loadingComponent = new LodaingView();
   #newPointPresenter = null;
 
   #tripList = new ListView();
 
   #currentSortType = SortType.DAY;
   #filterType = FilterType.EVERYTHING;
+  #isLoading = true;
 
   #offers = null;
   #destinations = null;
@@ -61,9 +64,17 @@ export class ListPresenter {
     return this.#currentSortType;
   }
 
+  get destinations() {
+    return this.#pointsModel.destinations;
+  }
+
+  get offers() {
+    return this.#pointsModel.offers;
+  }
+
   init() {
-    this.#offers = [...this.#pointsModel.offers];
-    this.#destinations = [...this.#pointsModel.destinations];
+    // this.#offers = [...this.#pointsModel.offers];
+    // this.#destinations = [...this.#pointsModel.destinations];
 
     this.#renderPointsList();
   }
@@ -75,14 +86,14 @@ export class ListPresenter {
   }
 
 
-  #renderPoint(point) {
+  #renderPoint(point, offers, destinations) {
     const pointPresenter = new PointPresenter({
       pointListContainer: this.#tripList,
       onDataChange: this.#handleViewAction,
       onModeChange: this.#handleModeChange,
     });
 
-    pointPresenter.init(point, this.#offers, this.#destinations);
+    pointPresenter.init(point, offers, destinations);
     this.#pointPresenters.set(point.id, pointPresenter);
   }
 
@@ -149,6 +160,11 @@ export class ListPresenter {
         this.#clearPointsList();
         this.#renderPointsList();
         break;
+      case UpdateType.INIT:
+        this.#isLoading = false;
+        remove(this.#loadingComponent);
+        this.#renderPointsList();
+        break;
     }
   };
 
@@ -159,6 +175,7 @@ export class ListPresenter {
     this.#pointPresenters.clear();
 
     remove(this.#sortComponent);
+    remove(this.#loadingComponent);
 
     if (this.#noPointsComponent) {
       remove(this.#noPointsComponent);
@@ -169,16 +186,25 @@ export class ListPresenter {
     }
   }
 
+  #renderLoading() {
+    render(this.#loadingComponent, this.#listContainer, RenderPosition.AFTERBEGIN);
+  }
+
 
   #renderPoints() {
     for (let i = 0; i < this.points.length; i++) {
-      this.#renderPoint(this.points[i]);
+      this.#renderPoint(this.points[i], this.offers, this.destinations);
     }
   }
 
 
   #renderPointsList() {
     render(this.#tripList, this.#listContainer);
+
+    if (this.#isLoading) {
+      this.#renderLoading();
+      return;
+    }
 
     this.#renderSort();
 
