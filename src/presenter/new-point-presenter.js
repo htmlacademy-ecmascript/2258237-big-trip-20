@@ -1,6 +1,5 @@
 import { remove, render, RenderPosition } from '../framework/render.js';
 import { EditPointView } from '../view/edit-point.js';
-// import { nanoid } from 'nanoid';
 import { UserAction, UpdateType } from '../const.js';
 import dayjs from 'dayjs';
 
@@ -9,9 +8,6 @@ export class NewPointPresenter {
   #pointListContainer = null;
   #handleDataChange = null;
   #handleDestroy = null;
-
-  #offers = null;
-  #destinations = null;
 
   #pointEditComponent = null;
 
@@ -22,8 +18,7 @@ export class NewPointPresenter {
   }
 
   init(offers, destinations) {
-    this.#offers = offers;
-    this.#destinations = destinations;
+
     if (this.#pointEditComponent !== null) {
       return;
     }
@@ -31,8 +26,8 @@ export class NewPointPresenter {
     this.#pointEditComponent = new EditPointView({
       point: {
         basePrice: '',
-        dateFrom: dayjs().format(),
-        dateTo: dayjs().format(),
+        dateFrom: dayjs().toDate(),
+        dateTo: dayjs().toDate(),
         isFavorite: false,
         offers: [],
         type: 'flight'
@@ -87,7 +82,6 @@ export class NewPointPresenter {
       UpdateType.MINOR,
       point,
     );
-    this.destroy();
   };
 
   #handleDeleteClick = () => {

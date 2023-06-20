@@ -117,6 +117,10 @@ export class ListPresenter {
       return;
     }
 
+    if (sortType === 'event' || sortType === 'offers') {
+      return;
+    }
+
     this.#currentSortType = sortType;
     this.#clearPointsList();
     this.#renderPointsList();
@@ -142,6 +146,7 @@ export class ListPresenter {
     this.#uiBlocker.block();
 
     switch (actionType) {
+
       case UserAction.UPDATE_POINT:
         this.#pointPresenters.get(update.id).setSaving();
         try {
@@ -150,6 +155,7 @@ export class ListPresenter {
           this.#pointPresenters.get(update.id).setAborting();
         }
         break;
+
       case UserAction.ADD_POINT:
         this.#newPointPresenter.setSaving();
         try {
@@ -158,6 +164,7 @@ export class ListPresenter {
           this.#newPointPresenter.setAborting();
         }
         break;
+
       case UserAction.DELETE_POINT:
         this.#pointPresenters.get(update.id).setDeleting();
         try {

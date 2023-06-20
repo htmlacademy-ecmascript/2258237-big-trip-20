@@ -96,11 +96,6 @@ export class PointsModel extends Observable {
     } catch(err) {
       throw new Error('Can\'t delete point');
     }
-    // this.#points = [
-    //   ...this.#points.slice(0, index),
-    //   ...this.#points.slice(index + 1),
-    // ];
-    // this._notify(updateType);
   }
 
   #adaptToClient(point) {

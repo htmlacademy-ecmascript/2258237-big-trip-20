@@ -58,12 +58,3 @@ pointsModel.init();
 tripInfoPresenter.init();
 filterPresenter.init();
 listPresenter.init();
-
-
-// pointsModel.init().then(() => {
-//   tripInfoPresenter.init();
-//   filterPresenter.init();
-//   listPresenter.init();
-// }).catch(() => {
-//   throw new Error('Error');
-// });
