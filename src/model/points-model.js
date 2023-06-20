@@ -77,11 +77,6 @@ export class PointsModel extends Observable {
     } catch(err) {
       throw new Error('Can\'t add point');
     }
-    // this.#points = [
-    //   update,
-    //   ...this.#points,
-    // ];
-    // this._notify(updateType, update);
   }
 
   async deletePoint(updateType, update) {
