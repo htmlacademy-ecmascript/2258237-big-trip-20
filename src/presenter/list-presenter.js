@@ -1,7 +1,10 @@
 import { PointPresenter } from './point-presenter.js';
+import { NewPointPresenter } from './new-point-presenter.js';
 import { ListView } from '../view/list.js';
 import { SortingView } from '../view/sort.js';
 import { NoPointsView } from '../view/no-points.js';
+import { LodaingView } from '../view/loading.js';
+
 import { render, RenderPosition, remove } from '../framework/render.js';
 import { filter } from '../utils/filter.js';
 
@@ -15,22 +18,30 @@ export class ListPresenter {
   #filterModel = null;
   #sortComponent = null;
   #noPointsComponent = null;
+  #loadingComponent = new LodaingView();
+  #newPointPresenter = null;
 
   #tripList = new ListView();
 
   #currentSortType = SortType.DAY;
   #filterType = FilterType.EVERYTHING;
+  #isLoading = true;
 
-  // #listPoints = null;
   #offers = null;
   #destinations = null;
 
   #pointPresenters = new Map();
 
-  constructor({listContainer, pointsModel, filterModel}) {
+  constructor({listContainer, pointsModel, filterModel, onNewPointDestroy}) {
     this.#listContainer = listContainer;
     this.#pointsModel = pointsModel;
     this.#filterModel = filterModel;
+
+    this.#newPointPresenter = new NewPointPresenter({
+      pointListContainer: this.#tripList,
+      onDataChange: this.#handleViewAction,
+      onDestroy: onNewPointDestroy,
+    });
 
     this.#pointsModel.addObserver(this.#handleModelEvent);
     this.#filterModel.addObserver(this.#handleModelEvent);
@@ -49,24 +60,37 @@ export class ListPresenter {
       case SortType.PRICE:
         return filteredPoints.sort(sortPointsByPrice);
     }
+
+    return this.#currentSortType;
+  }
+
+  get destinations() {
+    return this.#pointsModel.destinations;
+  }
+
+  get offers() {
+    return this.#pointsModel.offers;
   }
 
   init() {
-    this.#offers = [...this.#pointsModel.offers];
-    this.#destinations = [...this.#pointsModel.destinations];
-
     this.#renderPointsList();
   }
 
+  createPoint() {
+    this.#currentSortType = SortType.DAY;
+    this.#filterModel.setFilter(UpdateType.MAJOR, FilterType.EVERYTHING);
+    this.#newPointPresenter.init(this.#offers, this.#destinations);
+  }
 
-  #renderPoint(point) {
+
+  #renderPoint(point, offers, destinations) {
     const pointPresenter = new PointPresenter({
       pointListContainer: this.#tripList,
       onDataChange: this.#handleViewAction,
       onModeChange: this.#handleModeChange,
     });
 
-    pointPresenter.init(point, this.#offers, this.#destinations);
+    pointPresenter.init(point, offers, destinations);
     this.#pointPresenters.set(point.id, pointPresenter);
   }
 
@@ -102,6 +126,7 @@ export class ListPresenter {
 
 
   #handleModeChange = () => {
+    this.#newPointPresenter.destroy();
     this.#pointPresenters.forEach((presenter) => presenter.resetView());
   };
 
@@ -122,7 +147,7 @@ export class ListPresenter {
   #handleModelEvent = (updateType, data) => {
     switch (updateType) {
       case UpdateType.PATCH:
-        this.#pointPresenters.get(data.id).init(data, this.#offers, this.#destinations);
+        this.#pointPresenters.get(data.id).init(data, this.offers, this.destinations);
         break;
       case UpdateType.MINOR:
         this.#clearPointsList();
@@ -132,15 +157,22 @@ export class ListPresenter {
         this.#clearPointsList();
         this.#renderPointsList();
         break;
+      case UpdateType.INIT:
+        this.#isLoading = false;
+        remove(this.#loadingComponent);
+        this.#renderPointsList();
+        break;
     }
   };
 
 
   #clearPointsList({resetSortType = false} = {}) {
+    this.#newPointPresenter.destroy();
     this.#pointPresenters.forEach((presenter) => presenter.destroy());
     this.#pointPresenters.clear();
 
     remove(this.#sortComponent);
+    remove(this.#loadingComponent);
 
     if (this.#noPointsComponent) {
       remove(this.#noPointsComponent);
@@ -151,16 +183,25 @@ export class ListPresenter {
     }
   }
 
+  #renderLoading() {
+    render(this.#loadingComponent, this.#listContainer, RenderPosition.AFTERBEGIN);
+  }
+
 
   #renderPoints() {
     for (let i = 0; i < this.points.length; i++) {
-      this.#renderPoint(this.points[i]);
+      this.#renderPoint(this.points[i], this.offers, this.destinations);
     }
   }
 
 
   #renderPointsList() {
     render(this.#tripList, this.#listContainer);
+
+    if (this.#isLoading) {
+      this.#renderLoading();
+      return;
+    }
 
     this.#renderSort();
 

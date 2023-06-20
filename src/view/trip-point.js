@@ -1,9 +1,8 @@
 import AbstractView from '../framework/view/abstract-view.js';
 import { humanizePointDueTime, getOffersByType, getPointDuration } from '../utils.js';
-import { allOffers } from '../mock/offers.js';
 
 
-function createTripPointTemplate (point, destinations) {
+function createTripPointTemplate (point, destinations, allOffers) {
   const {dateFrom, dateTo, basePrice, destination, isFavorite, type, offers} = point;
 
   const dateFromDay = humanizePointDueTime(dateFrom, 'MMMM DD');
@@ -11,6 +10,10 @@ function createTripPointTemplate (point, destinations) {
   const dateToMinutes = humanizePointDueTime(dateTo, 'HH:mm');
 
   const isFavoriteClassName = (isFavorite) ? 'event__favorite-btn--active' : '';
+
+  // console.log(point);
+  // console.log(allOffers);
+  // console.log(destinations);
 
   function createOffersList (allOffersByType, checkedOffers) {
     return checkedOffers.map((currentOfferId) => {
@@ -68,13 +71,15 @@ function createTripPointTemplate (point, destinations) {
 export class TripPointView extends AbstractView {
   #point = null;
   #destinations = null;
+  #offers = null;
   #handleEditClick = null;
   #handleFavoriteClick = null;
 
-  constructor({point, destinations, onEditClick, onFavoriteClick}) {
+  constructor({point, destinations, offers, onEditClick, onFavoriteClick}) {
     super();
     this.#point = point;
     this.#destinations = destinations;
+    this.#offers = offers;
     this.#handleEditClick = onEditClick;
     this.#handleFavoriteClick = onFavoriteClick;
 
@@ -83,7 +88,7 @@ export class TripPointView extends AbstractView {
   }
 
   get template() {
-    return createTripPointTemplate(this.#point, this.#destinations);
+    return createTripPointTemplate(this.#point, this.#destinations, this.#offers);
   }
 
   #editClickHandler = (evt) => {
