@@ -22,6 +22,11 @@ function createDestinationListTemplate (destinationss) {
 
 
 function createOffersSectionTemplate (allOffers, type, checkedOffers) {
+  const currentTypeOffers = allOffers.find((offersByType) => offersByType.type === type);
+  if (currentTypeOffers.offers.length === 0) {
+    return '';
+  }
+
   return (`
     <section class="event__section  event__section--offers">
       <h3 class="event__section-title  event__section-title--offers">Offers</h3>
@@ -253,14 +258,14 @@ export class EditPointView extends AbstractStatefulView {
   #changeOfferesHandler = (evt) => {
     if (evt.target.checked) {
       const refreshedOffers = [...this._state.offers];
-      refreshedOffers.push(Number(evt.target.name.slice(12)));
+      refreshedOffers.push(evt.target.name.slice(12));
 
       this.updateElement({
         offers: refreshedOffers,
       });
     } else {
       const refreshedOffers = [...this._state.offers];
-      refreshedOffers.splice(this._state.offers.indexOf(Number(evt.target.name.slice(12))), 1);
+      refreshedOffers.splice(this._state.offers.indexOf(evt.target.name.slice(12)), 1);
 
       this.updateElement({
         offers: refreshedOffers,
@@ -270,7 +275,7 @@ export class EditPointView extends AbstractStatefulView {
 
   #dueDateFromChangeHandler = ([userDate]) => {
     this.updateElement({
-      dateFrom: dayjs(userDate).format('YYYY-MM-DDTHH:mm'),
+      dateFrom: dayjs(userDate).toDate(),
     });
   };
 
@@ -289,7 +294,7 @@ export class EditPointView extends AbstractStatefulView {
 
   #dueDateToChangeHandler = ([userDate]) => {
     this.updateElement({
-      dateTo: dayjs(userDate).format('YYYY-MM-DDTHH:mm'),
+      dateTo: dayjs(userDate).toDate(),
     });
   };
 
