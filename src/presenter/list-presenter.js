@@ -73,9 +73,6 @@ export class ListPresenter {
   }
 
   init() {
-    // this.#offers = [...this.#pointsModel.offers];
-    // this.#destinations = [...this.#pointsModel.destinations];
-
     this.#renderPointsList();
   }
 
@@ -150,7 +147,7 @@ export class ListPresenter {
   #handleModelEvent = (updateType, data) => {
     switch (updateType) {
       case UpdateType.PATCH:
-        this.#pointPresenters.get(data.id).init(data, this.#offers, this.#destinations);
+        this.#pointPresenters.get(data.id).init(data, this.offers, this.destinations);
         break;
       case UpdateType.MINOR:
         this.#clearPointsList();

@@ -38,16 +38,16 @@ export class PointPresenter {
 
     this.#pointComponent = new TripPointView({
       point,
-      destinations: destinations,
-      offers: offers,
+      destinations,
+      offers,
       onEditClick: this.#handleEditClick,
       onFavoriteClick: this.#handleFavoriteClick,
     });
 
     this.#pointEditComponent = new EditPointView ({
       point,
-      offers: offers,
-      destinations: destinations,
+      offers,
+      destinations,
       onSubmitForm: this.#handleSubmitForm,
       onCloseForm: this.#handleCloseForm,
       onDeleteForm: this.#handleDeleteForm,
