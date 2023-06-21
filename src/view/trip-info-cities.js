@@ -3,6 +3,10 @@ import AbstractView from '../framework/view/abstract-view.js';
 function createNewInfoCitiesTemplate(citiesList) {
 
   function getCitiesListTemplate(cities) {
+    if (cities[0] === undefined) {
+      return '';
+    }
+
     if (cities.length === 1) {
       return cities[0];
     } else {

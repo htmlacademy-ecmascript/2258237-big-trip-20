@@ -20,7 +20,6 @@ function createDestinationListTemplate (destinationss) {
   return (`${destinationss.map((item) => `<option value="${item.name}"></option>`).join('')}`);
 }
 
-
 function createOffersSectionTemplate (allOffers, type, checkedOffers) {
   const currentTypeOffers = allOffers.find((offersByType) => offersByType.type === type);
   if (currentTypeOffers.offers.length === 0) {
@@ -57,7 +56,6 @@ function createDestinationSectionTemplate (destinations, destination) {
     </section>
   `);
 }
-
 
 function createEventDetailsTemplate (allOffers, type, checkedOffers, destinations, destination) {
   return (`
@@ -146,7 +144,7 @@ function createEditPointTemplate (point, fullOffersList, destinations, editingTy
             <span class="visually-hidden">Price</span>
             &euro;
           </label>
-          <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${basePrice}" ${isDisabled ? 'disabled' : ''}>
+          <input class="event__input  event__input--price" id="event-price-1" type="number" min="1" name="event-price" value="${basePrice}" ${isDisabled ? 'disabled' : ''}>
         </div>
 
         <button class="event__save-btn  btn  btn--blue" type="submit">${(isSaving) ? 'Saving...' : 'Save'}</button>
@@ -294,7 +292,7 @@ export class EditPointView extends AbstractStatefulView {
         dateFormat: 'd\\/m\\/y\\ H\\:i',
         maxDate: dayjs(this._state.dateTo).format('DD-MM-YY HH:mm'),
         defaultDate: dayjs(this._state.dateFrom).format('DD-MM-YY HH:mm'),
-        onChange: this.#dueDateFromChangeHandler,
+        onClose: this.#dueDateFromChangeHandler,
       },
     );
   }
@@ -313,7 +311,7 @@ export class EditPointView extends AbstractStatefulView {
         dateFormat: 'd\\/m\\/y\\ H\\:i',
         minDate: dayjs(this._state.dateFrom).format('DD-MM-YY HH:mm'),
         defaultDate: dayjs(this._state.dateTo).format('DD-MM-YY HH:mm'),
-        onChange: this.#dueDateToChangeHandler,
+        onClose: this.#dueDateToChangeHandler,
       },
     );
   }
