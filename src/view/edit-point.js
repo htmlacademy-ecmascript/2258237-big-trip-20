@@ -16,8 +16,10 @@ function createEventTypesTemplate (types) {
   `);
 }
 
-function createDestinationListTemplate (destinationss) {
-  return (`${destinationss.map((item) => `<option value="${item.name}"></option>`).join('')}`);
+function createDestinationListTemplate (destinations, selectedDestinationId) {
+  const selectedDestinationObject = destinations.find((destination) => destination.id === selectedDestinationId);
+
+  return (`${destinations.map((item) => `<option value="${item.name}" ${(selectedDestinationObject === item) ? 'selected' : ''}>${item.name}</option>`).join('')}`);
 }
 
 function createOffersSectionTemplate (allOffers, type, checkedOffers) {
@@ -94,7 +96,6 @@ function createPhotosTemplate (currentCityPhotos) {
 function createEditPointTemplate (point, fullOffersList, destinations, editingType) {
   const {basePrice, dateFrom, dateTo, destination, type, offers, isDisabled, isSaving, isDeleting} = point;
 
-
   let deleteButton = 'Cancel';
   if (editingType === EditingType.EDITING) {
     deleteButton = (isDeleting) ? 'Deleting...' : 'Delete';
@@ -125,10 +126,10 @@ function createEditPointTemplate (point, fullOffersList, destinations, editingTy
           <label class="event__label  event__type-output" for="event-destination-1">
             ${type}
           </label>
-          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${(point.destination === undefined) ? '' : destinations.find((city) => city.id === destination).name}" list="destination-list-1" ${isDisabled ? 'disabled' : ''}>
-          <datalist id="destination-list-1">
-            ${createDestinationListTemplate(destinations)}
-          </datalist>
+          <select class="event__input  event__input--destination" name="event-destination">
+            <option value=""></option>
+            ${createDestinationListTemplate(destinations, destination)}
+          </select>
         </div>
 
         <div class="event__field-group  event__field-group--time">
