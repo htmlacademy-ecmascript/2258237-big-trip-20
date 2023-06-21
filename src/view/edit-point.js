@@ -94,8 +94,15 @@ function createPhotosTemplate (currentCityPhotos) {
 
 
 function createEditPointTemplate (point, fullOffersList, destinations, editingType) {
-  const {basePrice, dateFrom, dateTo, destination, type, offers} = point;
-  const deleteButton = (editingType === EditingType.CREATING) ? 'Delete' : 'Cancel';
+  const {basePrice, dateFrom, dateTo, destination, type, offers, isDisabled, isSaving, isDeleting} = point;
+
+
+  let deleteButton = 'Cancel';
+  if (editingType === EditingType.EDITING) {
+    deleteButton = (isDeleting) ? 'Deleting...' : 'Delete';
+  } else {
+    deleteButton = (isDeleting) ? 'Caneling...' : 'Cancel';
+  }
 
   return (
     `<li class="trip-events__item">
@@ -120,7 +127,7 @@ function createEditPointTemplate (point, fullOffersList, destinations, editingTy
           <label class="event__label  event__type-output" for="event-destination-1">
             ${type}
           </label>
-          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${(point.destination === undefined) ? '' : destinations.find((city) => city.id === destination).name}" list="destination-list-1">
+          <input class="event__input  event__input--destination" id="event-destination-1" type="text" name="event-destination" value="${(point.destination === undefined) ? '' : destinations.find((city) => city.id === destination).name}" list="destination-list-1" ${isDisabled ? 'disabled' : ''}>
           <datalist id="destination-list-1">
             ${createDestinationListTemplate(destinations)}
           </datalist>
@@ -139,10 +146,10 @@ function createEditPointTemplate (point, fullOffersList, destinations, editingTy
             <span class="visually-hidden">Price</span>
             &euro;
           </label>
-          <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${basePrice}">
+          <input class="event__input  event__input--price" id="event-price-1" type="text" name="event-price" value="${basePrice}" ${isDisabled ? 'disabled' : ''}>
         </div>
 
-        <button class="event__save-btn  btn  btn--blue" type="submit">Save</button>
+        <button class="event__save-btn  btn  btn--blue" type="submit">${(isSaving) ? 'Saving...' : 'Save'}</button>
         <button class="event__reset-btn" type="reset">${deleteButton}</button>
         <button class="event__rollup-btn" type="button">
           <span class="visually-hidden">Open event</span>
@@ -175,7 +182,7 @@ export class EditPointView extends AbstractStatefulView {
     this.#handleCloseForm = onCloseForm;
     this.#handleDeleteClick = onDeleteForm;
 
-    this.#editingType = (creatingPoint) ? EditingType.EDITING : EditingType.CREATING;
+    this.#editingType = (creatingPoint) ? EditingType.CREATING : EditingType.EDITING;
 
     this._restoreHandlers();
   }
@@ -313,11 +320,20 @@ export class EditPointView extends AbstractStatefulView {
 
 
   static parsePointToState(point) {
-    return {...point};
+    return {
+      ...point,
+      isDisabled: false,
+      isSaving: false,
+      isDeleting: false,
+    };
   }
 
   static parseStateToPoint(state) {
     const point = {...state};
+    delete point.isDisabled;
+    delete point.isSaving;
+    delete point.isDeleting;
+
     return point;
   }
 }
