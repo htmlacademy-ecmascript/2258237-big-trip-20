@@ -1,6 +1,10 @@
 import AbstractView from '../framework/view/abstract-view.js';
 
 function createNewInfoDatesTemplate(mainDates) {
+  if (mainDates === '') {
+    return ('<p class="trip-info__dates"></p>');
+  }
+
   return (`
     <p class="trip-info__dates">${mainDates[0]}&nbsp;&mdash;&nbsp;${mainDates[1]}</p>
   `);
