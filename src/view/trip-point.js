@@ -11,9 +11,6 @@ function createTripPointTemplate (point, destinations, allOffers) {
 
   const isFavoriteClassName = (isFavorite) ? 'event__favorite-btn--active' : '';
 
-  // console.log(point);
-  // console.log(allOffers);
-  // console.log(destinations);
 
   function createOffersList (allOffersByType, checkedOffers) {
     return checkedOffers.map((currentOfferId) => {
