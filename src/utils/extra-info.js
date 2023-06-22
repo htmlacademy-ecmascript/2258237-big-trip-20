@@ -44,12 +44,6 @@ function getTotalTripPrice (points, offers) {
     });
   }
 
-  // for (let i = 0; i < points.length; i++) {
-  //   points[i].offers.map((currentOffer) => extraOffers[i].find((offer) => offer.id === currentOffer)).forEach((item) => {
-  //     offersPrice += item.price;
-  //   });
-  // }
-
   return basePrices + offersPrice;
 }
 
