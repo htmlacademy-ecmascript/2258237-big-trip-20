@@ -9,6 +9,8 @@ function createNewInfoCitiesTemplate(citiesList) {
 
     if (cities.length === 1) {
       return cities[0];
+    } else if (cities.length === 2) {
+      return `${cities[0]} &mdash; ${cities[1]}`;
     } else {
       return `${cities[0]} &mdash; ${cities[1]} &mdash; ${cities[2]}`;
     }

@@ -223,8 +223,8 @@ export class ListPresenter {
 
 
   #renderPoints() {
-    for (let i = 0; i < this.points.length; i++) {
-      this.#renderPoint(this.points[i], this.offers, this.destinations);
+    for (const point of this.points) {
+      this.#renderPoint(point, this.offers, this.destinations);
     }
   }
 

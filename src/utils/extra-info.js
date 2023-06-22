@@ -15,7 +15,9 @@ function getCitiesList (citiesList) {
   const newArray = Array.from(newSet);
 
   if (newArray.length === 1) {
-    return citiesList[0];
+    return [citiesList[0]];
+  } else if (newArray.length === 2) {
+    return [citiesList[0], citiesList[citiesList.length - 1]];
   } else if (newArray.length > 3) {
     return [citiesList[0], ['...'], citiesList[citiesList.length - 1]];
   } else {
@@ -33,13 +35,20 @@ function getTotalTripPrice (points, offers) {
   }
   const basePrices = points.map((point) => point.basePrice).reduce((total, current) => total + current);
   const extraOffers = points.map((point) => getOffersByType(offers, point.type));
+
   let offersPrice = 0;
 
-  for (let i = 0; i < points.length; i++) {
-    points[i].offers.map((currentOffer) => extraOffers[i].find((offer) => offer.id === currentOffer)).forEach((item) => {
+  for (const point of points) {
+    point.offers.map((currentOffer) => extraOffers[points.findIndex((pointes) => pointes === point)].find((offer) => offer.id === currentOffer)).forEach((item) => {
       offersPrice += item.price;
     });
   }
+
+  // for (let i = 0; i < points.length; i++) {
+  //   points[i].offers.map((currentOffer) => extraOffers[i].find((offer) => offer.id === currentOffer)).forEach((item) => {
+  //     offersPrice += item.price;
+  //   });
+  // }
 
   return basePrices + offersPrice;
 }

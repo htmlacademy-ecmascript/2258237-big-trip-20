@@ -34,9 +34,9 @@ const getPointDuration = (dateFrom, dateTo) => {
 };
 
 const getOffersByType = (fullListOffers, currentType) => {
-  for (let i = 0; i < fullListOffers.length; i++) {
-    if (fullListOffers[i].type === currentType) {
-      return fullListOffers[i].offers;
+  for (const fullListOffer of fullListOffers) {
+    if (fullListOffer.type === currentType) {
+      return fullListOffer.offers;
     }
   }
 };

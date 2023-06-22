@@ -58,41 +58,6 @@ export class TripInfoPresenter {
     remove(prevPriceComponent);
   }
 
-
-  // #renderCities(points, destinations) {
-  //   const citiesInTripOrder = getCitiesInOrder(points, destinations);
-  //   const citiesList = getCitiesList(citiesInTripOrder);
-
-  //   const citiesComponent = new InfoCitiesView(citiesList);
-  //   render(citiesComponent, this.#tripInfoList.element.querySelector('.trip-info__main'));
-  // }
-
-
-  // #renderDates(points) {
-  //   const mainDates = getMainDates(points);
-
-  //   const datesComponent = new InfoDatesView(mainDates);
-  //   render(datesComponent, this.#tripInfoList.element.querySelector('.trip-info__main'));
-  // }
-
-
-  // #renderPrice(points, offers) {
-  //   const totalPrice = getTotalTripPrice(points, offers);
-
-  //   const priceComponent = new InfoPriceView(totalPrice);
-  //   render(priceComponent, this.#tripInfoList.element);
-  // }
-
-
-  // // #renderInfoContainer() {
-  // //   render(this.#tripInfoList, this.#tripInfoContainer, RenderPosition.AFTERBEGIN);
-
-  // //   this.#renderCities(this.#listPoints, this.#destinations);
-  // //   this.#renderDates(this.#listPoints);
-  // //   this.#renderPrice(this.#listPoints, this.#offers);
-  // // }
-
-
   #handleModelEvent = () => {
     this.init();
   };

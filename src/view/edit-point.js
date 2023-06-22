@@ -126,7 +126,7 @@ function createEditPointTemplate (point, fullOffersList, destinations, editingTy
           <label class="event__label  event__type-output" for="event-destination-1">
             ${type}
           </label>
-          <select class="event__input  event__input--destination" name="event-destination">
+          <select class="event__input  event__input--destination" name="event-destination" required>
             <option value=""></option>
             ${createDestinationListTemplate(destinations, destination)}
           </select>
@@ -145,7 +145,7 @@ function createEditPointTemplate (point, fullOffersList, destinations, editingTy
             <span class="visually-hidden">Price</span>
             &euro;
           </label>
-          <input class="event__input  event__input--price" id="event-price-1" type="number" min="1" name="event-price" value="${basePrice}" ${isDisabled ? 'disabled' : ''}>
+          <input class="event__input  event__input--price" id="event-price-1" type="number" min="1" name="event-price" value="${basePrice}" ${isDisabled ? 'disabled' : ''} required>
         </div>
 
         <button class="event__save-btn  btn  btn--blue" type="submit">${(isSaving) ? 'Saving...' : 'Save'}</button>
@@ -207,7 +207,7 @@ export class EditPointView extends AbstractStatefulView {
   }
 
   _restoreHandlers() {
-    this.element.querySelector('.event__save-btn').addEventListener('click', this.#submitFormHandler);
+    this.element.querySelector('.event__save-btn').addEventListener('submit', this.#submitFormHandler);
     this.element.querySelector('.event__rollup-btn').addEventListener('click', this.#closeFormHandler);
     this.element.querySelector('.event__reset-btn').addEventListener('click', this.#deleteFormHandler);
     this.element.querySelectorAll('.event__type-input').forEach((elem) => elem.addEventListener('click', this.#changeTypeHandler));
