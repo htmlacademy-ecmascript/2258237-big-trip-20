@@ -1,6 +1,10 @@
 import dayjs from 'dayjs';
 import isBetween from 'dayjs/plugin/isBetween.js';
+import isSameOrAfter from 'dayjs/plugin/isSameOrAfter.js';
+import isSameOrBefore from 'dayjs/plugin/isSameOrBefore.js';
 dayjs.extend(isBetween);
+dayjs.extend(isSameOrAfter);
+dayjs.extend(isSameOrBefore);
 
 import { FilterType } from '../const.js';
 
@@ -9,7 +13,10 @@ function isFutureDate(date) {
 }
 
 function isPresentDate(dateFrom, dateTo) {
-  return dayjs().isBetween(dayjs(dateFrom), dayjs(dateTo), null, '[]');
+  const isDateFromPast = dayjs().isSameOrAfter(dayjs(dateFrom), 'D');
+  const isDateToFuture = dayjs().isSameOrBefore(dayjs(dateTo), 'D');
+
+  return isDateFromPast && isDateToFuture;
 }
 
 function isPastDate(date) {

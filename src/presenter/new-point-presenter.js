@@ -35,6 +35,7 @@ export class NewPointPresenter {
       offers,
       destinations,
       onSubmitForm: this.#handleSubmitForm,
+      onCloseForm: this.#handleCloseForm,
       onDeleteForm: this.#handleDeleteClick,
       creatingPoint: true,
     });
@@ -75,6 +76,10 @@ export class NewPointPresenter {
 
     this.#pointEditComponent.shake(resetFormState);
   }
+
+  #handleCloseForm = () => {
+    this.destroy();
+  };
 
   #handleSubmitForm = (point) => {
     this.#handleDataChange(

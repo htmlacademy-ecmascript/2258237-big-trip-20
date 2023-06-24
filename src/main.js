@@ -1,4 +1,5 @@
 import { NewPointButtonView } from './view/new-point-button.js';
+import { NoResponseServerView } from './view/no-response-server.js';
 import { ListPresenter } from './presenter/list-presenter.js';
 import { TripInfoPresenter } from './presenter/trip-info-presenter.js';
 import { FilterPresenter } from './presenter/filter-presenter.js';
@@ -22,12 +23,12 @@ const siteMainEvents = siteMainElement.querySelector('.trip-events');
 const pointsModel = new PointsModel({
   pointsApiService: new PointsApiService(END_POINT, AUTHORIZATION),
 });
-const tripInfoPresenter = new TripInfoPresenter({
+new TripInfoPresenter({
   tripInfoContainer: siteHeaderInfo,
   pointsModel,
 });
 const filterModel = new FilterModel();
-const filterPresenter = new FilterPresenter({
+new FilterPresenter({
   filterContainer: siteHeaderTripControls,
   filterModel,
   pointsModel,
@@ -43,6 +44,8 @@ const newPointButtonComponent = new NewPointButtonView({
   onClick: handleNewPointButtonClick,
 });
 
+const noResponseServerView = new NoResponseServerView();
+
 function handleNewPointFormClose() {
   newPointButtonComponent.element.disabled = false;
 }
@@ -52,9 +55,9 @@ function handleNewPointButtonClick() {
   newPointButtonComponent.element.disabled = true;
 }
 
-render(newPointButtonComponent, siteHeaderInfo, RenderPosition.BEFOREEND);
 
-pointsModel.init();
-tripInfoPresenter.init();
-filterPresenter.init();
-listPresenter.init();
+pointsModel.init().then(() => {
+  render(newPointButtonComponent, siteHeaderInfo, RenderPosition.BEFOREEND);
+}).catch(() => {
+  render(noResponseServerView, siteMainElement.querySelector('.page-body__container'));
+});
