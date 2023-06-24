@@ -9,7 +9,7 @@ import { RenderPosition } from './framework/render.js';
 import PointsApiService from './points-api-service.js';
 
 const AUTHORIZATION = 'Basic k67jSr2gbDSh3sueghWE';
-const END_POINT = 'https://20.ecmascript.pages.academy/big-trip';
+const END_POINT = 'https://20.ecmascript.pages.academy/big-tri';
 
 
 const siteHeaderElement = document.querySelector('.page-header');

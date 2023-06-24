@@ -35,6 +35,7 @@ export class PointsModel extends Observable {
       this.#offers = await this.#pointsApiService.offers;
 
     } catch(err) {
+      console.log('slomano')
       this.#points = [];
       this.#destinations = [];
       this.#offers = [];
