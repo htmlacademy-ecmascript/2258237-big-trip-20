@@ -78,7 +78,7 @@ export class NewPointPresenter {
   }
 
   #handleCloseForm = () => {
-    this.#pointEditComponent.destroy();
+    this.destroy();
   };
 
   #handleSubmitForm = (point) => {
